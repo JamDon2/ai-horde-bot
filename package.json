@@ -5,7 +5,8 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "start": "nodemon --exec 'ts-node-esm' src/index.ts",
+        "start": "node dist/",
+        "dev": "nodemon --exec 'ts-node-esm' src/index.ts",
         "build": "npx tsc"
     },
     "devDependencies": {
