@@ -81,20 +81,30 @@ client.on("messageReactionAdd", async (reaction, user) => {
             user.createDM()
                 .then((dm) =>
                     dm.send(
-                        `You have given ${recipient.username} ${value} kudos.`
+                        `You have given <@${message.author.id}> ${Number(
+                            value
+                        ).toLocaleString("en-US")} kudos.`
                     )
                 )
                 .catch(() => {});
             message.author
                 .createDM()
                 .then((dm) =>
-                    dm.send(`${sender.username} has given you ${value} kudos.`)
+                    dm.send(
+                        `<@${user.id}> has given you ${Number(
+                            value
+                        ).toLocaleString("en-US")} kudos.`
+                    )
                 )
                 .catch(() => {});
         })
         .catch(async (error: any) => {
             await reaction.users.remove(user as User);
-            if (error.response?.status === 400) {
+
+            if (
+                error.response?.status === 400 &&
+                error.response?.data?.message === "Not enough kudos."
+            ) {
                 user.createDM()
                     .then((dm) => dm.send("You don't have enough kudos."))
                     .catch(() => {});
