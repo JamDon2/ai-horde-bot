@@ -56,7 +56,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         "You are not logged in. Please use /login in the server."
                     )
                 )
-                .catch(() => {});
+                .catch((err) => {
+                    console.error(err);
+                });
         else if (!recipient)
             message.author
                 .createDM()
@@ -65,7 +67,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         "Someone has tried to give you kudos, but you are not logged in. Please use /login in the server."
                     )
                 )
-                .catch(() => {});
+                .catch((err) => {
+                    console.error(err);
+                });
 
         await reaction.users.remove(user);
         return;
@@ -86,7 +90,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         ).toLocaleString("en-US")} kudos.`
                     )
                 )
-                .catch(() => {});
+                .catch((err) => {
+                    console.error(err);
+                });
             message.author
                 .createDM()
                 .then((dm) =>
@@ -96,7 +102,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         ).toLocaleString("en-US")} kudos.`
                     )
                 )
-                .catch(() => {});
+                .catch((err) => {
+                    console.error(err);
+                });
         })
         .catch(async (error: any) => {
             await reaction.users.remove(user as User);
@@ -107,7 +115,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
             ) {
                 user.createDM()
                     .then((dm) => dm.send("You don't have enough kudos."))
-                    .catch(() => {});
+                    .catch((err) => {
+                        console.error(err);
+                    });
             }
         });
 });
