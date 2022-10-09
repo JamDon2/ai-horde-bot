@@ -2,7 +2,7 @@ FROM node:16-alpine AS builder
 
 WORKDIR /usr
 
-COPY package.json ./
+COPY package*.json ./
 COPY tsconfig.json ./
 COPY src ./src
 
@@ -15,7 +15,7 @@ FROM node:16-alpine
 
 WORKDIR /usr
 
-COPY package.json ./
+COPY package*.json ./
 
 COPY --from=builder /usr/dist ./dist
 
