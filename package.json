@@ -4,6 +4,7 @@
     "main": "src/index.ts",
     "type": "module",
     "private": true,
+    "license": "AGPL-3.0",
     "scripts": {
         "start": "node dist/",
         "dev": "nodemon --exec 'ts-node-esm' src/index.ts",
