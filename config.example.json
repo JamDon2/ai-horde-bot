@@ -2,7 +2,7 @@
     "emojis": {
         "sh_neat": {
             "value": 10,
-            "message": "Sweet, you got {{amount}} kudos from {{user_mention}}."
+            "message": "Sweet, you got {{amount}} kudos from {{user_mention}}. [Jump to message]({{message_url}})"
         },
         "sh_noice": {
             "value": 100
