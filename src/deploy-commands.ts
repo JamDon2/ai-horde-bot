@@ -7,7 +7,7 @@ import config from "./config.js";
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN as string);
 
-rest.put(Routes.applicationGuildCommands(config.clientId, config.guildId), {
+rest.put(Routes.applicationCommands(config.clientId), {
     body: commands.map((command) => command.toJSON()),
 })
     .then((data) => {

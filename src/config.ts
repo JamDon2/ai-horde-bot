@@ -4,7 +4,6 @@ type Config = {
     emojis: {
         [key: string]: string;
     };
-    guildId: string;
     clientId: string;
 };
 
