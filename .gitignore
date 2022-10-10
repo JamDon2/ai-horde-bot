@@ -22,5 +22,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
-.db
+db/
+
 
