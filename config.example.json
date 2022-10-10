@@ -1,0 +1,11 @@
+{
+    "emojis": {
+        "10": "LIST",
+        "100": "EMOJI",
+        "500": "IDS",
+        "1000": "HERE",
+        "5000": "WITH",
+        "10000": "VALUES"
+    },
+    "clientId": "YOUR_BOTS_CLIENT_ID"
+}
