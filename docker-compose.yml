@@ -16,6 +16,8 @@ services:
         restart: always
         expose:
             - 27017
+        volumes: 
+        - ./db:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: changeme
