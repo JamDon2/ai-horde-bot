@@ -12,8 +12,10 @@ import db from "./db/client.js";
 import config from "./config.js";
 import { commandHandlers } from "./commands.js";
 import api from "./api/client.js";
+import { Collection } from "mongodb";
+import HordeDocument from "./types/document.js";
 
-const usersCollection = db.collection("users");
+const usersCollection: Collection<HordeDocument> = db.collection("users");
 
 const client = new Client({
     intents: [
