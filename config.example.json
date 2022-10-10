@@ -1,12 +1,30 @@
 {
     "emojis": {
-        "10": "List emoji IDs or names here with values",
-        "100": "sh_noice",
-        "500": "sh_toight",
-        "1000": "sh_marvelous",
-        "5000": "sh_sensational",
-        "10000": "sh_brilliant"
+        "sh_neat": {
+            "value": 10,
+            "message": "Sweet, you got {{amount}} kudos from {{user_mention}}."
+        },
+        "sh_noice": {
+            "value": 100
+        },
+        "sh_toight": {
+            "value": 500
+        },
+        "sh_marvelous": {
+            "value": 1000
+        },
+        "sh_sensational": {
+            "value": 5000
+        },
+        "sh_brilliant": {
+            "value": 10000
+        },
+        "sh_stupendous": {
+            "value": 50000,
+            "message": "OMG, you got {{amount}} kudos from {{user_mention}}!"
+        }
     },
+    "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
     "clientId": "YOUR_BOTS_CLIENT_ID"
 }

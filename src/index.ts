@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, Partials, User } from "discord.js";
+import Mustache from "mustache";
 import "dotenv/config";
 
 import db from "./db/client.js";
@@ -30,13 +31,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
         ? reaction.emoji.name
         : reaction.emoji.id;
 
-    const actionEmojis = Object.values(config.emojis);
+    const emojiDetails = config.emojis[emojiIdentifier || ""];
 
-    if (!actionEmojis.includes(emojiIdentifier || "")) return;
-
-    const actionValues = Object.keys(config.emojis);
-
-    const value = actionValues[actionEmojis.indexOf(emojiIdentifier || "")];
+    if (!emojiDetails) return;
 
     const message = reaction.message.partial
         ? await reaction.message.fetch()
@@ -79,19 +76,32 @@ client.on("messageReactionAdd", async (reaction, user) => {
         return;
     }
 
+    const receiveMessage = Mustache.render(
+        emojiDetails.message || config.defaultMessage,
+        {
+            amount: emojiDetails.value.toLocaleString("en-US"),
+            user_mention: `<@${user.id}> `,
+        },
+        undefined,
+        { escape: (val) => val }
+    );
+
     await api
         .post(
             "/kudos/transfer",
-            { username: recipient.username, amount: value },
+            {
+                username: recipient.username,
+                amount: emojiDetails.value,
+            },
             { headers: { apikey: sender.apiKey } }
         )
         .then(() => {
             user.createDM()
                 .then((dm) =>
                     dm.send(
-                        `You have given <@${message.author.id}> ${Number(
-                            value
-                        ).toLocaleString("en-US")} kudos.`
+                        `You have given <@${
+                            message.author.id
+                        }> ${emojiDetails.value.toLocaleString("en-US")} kudos.`
                     )
                 )
                 .catch((err) => {
@@ -99,13 +109,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 });
             message.author
                 .createDM()
-                .then((dm) =>
-                    dm.send(
-                        `<@${user.id}> has given you ${Number(
-                            value
-                        ).toLocaleString("en-US")} kudos.`
-                    )
-                )
+                .then((dm) => dm.send(receiveMessage))
                 .catch((err) => {
                     console.error(err);
                 });
@@ -122,6 +126,8 @@ client.on("messageReactionAdd", async (reaction, user) => {
                     .catch((err) => {
                         console.error(err);
                     });
+            } else {
+                console.error(error);
             }
         });
 });

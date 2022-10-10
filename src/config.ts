@@ -2,8 +2,12 @@ import fs from "fs";
 
 type Config = {
     emojis: {
-        [key: string]: string;
+        [key: string]: {
+            value: number;
+            message: string | null | undefined;
+        };
     };
+    defaultMessage: string;
     useEmojiNames: boolean;
     clientId: string;
 };
