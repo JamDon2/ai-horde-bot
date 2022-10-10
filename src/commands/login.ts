@@ -1,7 +1,8 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection, ObjectId } from "mongodb";
+import { Collection } from "mongodb";
 
 import api from "../api/client.js";
+import HordeDocument from "../types/document.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -13,10 +14,13 @@ export default {
                 .setDescription("Your API key.")
                 .setRequired(true)
         ),
-    async handler(interaction: CommandInteraction, collection: Collection) {
+    async handler(
+        interaction: CommandInteraction,
+        collection: Collection<HordeDocument>
+    ) {
         await interaction.deferReply({ ephemeral: true });
 
-        const apiKey = interaction.options.get("api-key", true).value;
+        const apiKey = interaction.options.get("api-key", true).value as string;
 
         const data: { username: string } | { error: string } = (await api
             .get("/find_user", {
@@ -59,7 +63,7 @@ export default {
             });
         } else {
             await collection.insertOne({
-                _id: interaction.user.id as unknown as ObjectId,
+                _id: interaction.user.id,
                 apiKey,
                 username: data.username,
             });
