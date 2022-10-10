@@ -1,0 +1,35 @@
+{
+    "emojis": {
+        "kudos_neat": {
+            "value": 10,
+            "message": "Neat. You got {{amount}} kudos from {{user_mention}}. [Jump to message]({{message_url}})"
+        },
+        "kudos_noice": {
+            "value": 100,
+            "message": "Noice! {{user_mention}} thought [your message]({{message_url}}) was worth {{amount}} kudos."
+        },
+        "kudos_toight": {
+            "value": 500,
+            "message": "Toight! {{user_mention}} thought [your message]({{message_url}}) was worth {{amount}} kudos."
+        },
+        "kudos_marvelous": {
+            "value": 1000,
+            "message": "Marvelous! {{amount}} kudos has been transferred to your account by {{user_mention}} for [your message]({{message_url}})."
+        },
+        "kudos_sensational": {
+            "value": 5000,
+            "message": "Sensational! [Your message]({{message_url}}) excited {{user_mention}} enough to gift you {{amount}} kudos."
+        },
+        "kudos_brilliant": {
+            "value": 10000,
+            "message": "Brilliant! {{user_mention}} must really like you. They just sent you {{amount}} kudos for [this message]({{message_url}})."
+        },
+        "kudos_stupendous": {
+            "value": 50000,
+            "message": "OMG! you got {{amount}} kudos from {{user_mention}} just from [this message]({{message_url}})!"
+        }
+    },
+    "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
+    "useEmojiNames": true,
+    "clientId": "1019572037360025650"
+}
