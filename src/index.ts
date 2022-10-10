@@ -26,13 +26,17 @@ client.on("interactionCreate", (interaction) => {
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
+    const emojiIdentifier = config.useEmojiNames
+        ? reaction.emoji.name
+        : reaction.emoji.id;
+
     const actionEmojis = Object.values(config.emojis);
 
-    if (!actionEmojis.includes(reaction.emoji.id || "")) return;
+    if (!actionEmojis.includes(emojiIdentifier || "")) return;
 
     const actionValues = Object.keys(config.emojis);
 
-    const value = actionValues[actionEmojis.indexOf(reaction.emoji.id || "")];
+    const value = actionValues[actionEmojis.indexOf(emojiIdentifier || "")];
 
     const message = reaction.message.partial
         ? await reaction.message.fetch()

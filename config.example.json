@@ -1,11 +1,12 @@
 {
     "emojis": {
-        "10": "LIST",
-        "100": "EMOJI",
-        "500": "IDS",
-        "1000": "HERE",
-        "5000": "WITH",
-        "10000": "VALUES"
+        "10": "List emoji IDs or names here with values",
+        "100": "sh_noice",
+        "500": "sh_toight",
+        "1000": "sh_marvelous",
+        "5000": "sh_sensational",
+        "10000": "sh_brilliant"
     },
+    "useEmojiNames": true,
     "clientId": "YOUR_BOTS_CLIENT_ID"
 }

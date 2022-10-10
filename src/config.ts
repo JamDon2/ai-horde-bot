@@ -4,6 +4,7 @@ type Config = {
     emojis: {
         [key: string]: string;
     };
+    useEmojiNames: boolean;
     clientId: string;
 };
 
