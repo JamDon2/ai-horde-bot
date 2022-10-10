@@ -1,4 +1,10 @@
-import { Client, GatewayIntentBits, Partials, User } from "discord.js";
+import {
+    Client,
+    EmbedBuilder,
+    GatewayIntentBits,
+    Partials,
+    User,
+} from "discord.js";
 import Mustache from "mustache";
 import "dotenv/config";
 
@@ -81,6 +87,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
         {
             amount: emojiDetails.value.toLocaleString("en-US"),
             user_mention: `<@${user.id}> `,
+            message_url: message.url,
         },
         undefined,
         { escape: (val) => val }
@@ -109,7 +116,13 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 });
             message.author
                 .createDM()
-                .then((dm) => dm.send(receiveMessage))
+                .then((dm) =>
+                    dm.send({
+                        embeds: [
+                            new EmbedBuilder().setDescription(receiveMessage),
+                        ],
+                    })
+                )
                 .catch((err) => {
                     console.error(err);
                 });
