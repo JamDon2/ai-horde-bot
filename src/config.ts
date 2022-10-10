@@ -7,8 +7,6 @@ type Config = {
     clientId: string;
 };
 
-const config: Config = JSON.parse(
-    fs.readFileSync("./src/config.json", "utf-8")
-);
+const config: Config = JSON.parse(fs.readFileSync("./config.json", "utf-8"));
 
 export default config;
