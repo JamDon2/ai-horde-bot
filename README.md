@@ -14,7 +14,7 @@ Any time that emoji is reacted with, it will transfer the same amount of kudos. 
 
 If the reactor doesn't have enough kudos, the emoji will also be removed.
 
-Use this functionality to prompte good behaviour with something that has a bit more utility than random emojis
+Use this functionality to promote good behaviour with something that has a bit more utility than random emojis
 
 ## Running
 
