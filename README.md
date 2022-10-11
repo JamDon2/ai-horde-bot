@@ -1,4 +1,4 @@
-# Stable Horde Kudos Bot
+# Stable Horde Bot
 
 This discord bot will automatically transfer kudos from the person taking a reaction, to the owner of the comment being reacted to.
 
