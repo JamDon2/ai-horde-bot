@@ -95,6 +95,21 @@ client.on("messageReactionAdd", async (reaction, user) => {
         { escape: (val) => val }
     );
 
+    let sendEnabled = true;
+    let receiveEnabled = true;
+
+    if (sender.notifications) {
+        if (sender.notifications.send === -1) sendEnabled = false;
+        else if (sender.notifications.send > emojiDetails.value)
+            sendEnabled = false;
+    }
+
+    if (recipient.notifications) {
+        if (recipient.notifications.receive === -1) receiveEnabled = false;
+        else if (recipient.notifications.receive > emojiDetails.value)
+            receiveEnabled = false;
+    }
+
     await api
         .post(
             "/kudos/transfer",
@@ -105,29 +120,36 @@ client.on("messageReactionAdd", async (reaction, user) => {
             { headers: { apikey: sender.apiKey } }
         )
         .then(() => {
-            user.createDM()
-                .then((dm) =>
-                    dm.send(
-                        `You have given <@${
-                            message.author.id
-                        }> ${emojiDetails.value.toLocaleString("en-US")} kudos.`
+            if (sendEnabled)
+                user.createDM()
+                    .then((dm) =>
+                        dm.send(
+                            `You have given <@${
+                                message.author.id
+                            }> ${emojiDetails.value.toLocaleString(
+                                "en-US"
+                            )} kudos.`
+                        )
                     )
-                )
-                .catch((err) => {
-                    console.error(err);
-                });
-            message.author
-                .createDM()
-                .then((dm) =>
-                    dm.send({
-                        embeds: [
-                            new EmbedBuilder().setDescription(receiveMessage),
-                        ],
-                    })
-                )
-                .catch((err) => {
-                    console.error(err);
-                });
+                    .catch((err) => {
+                        console.error(err);
+                    });
+
+            if (receiveEnabled)
+                message.author
+                    .createDM()
+                    .then((dm) =>
+                        dm.send({
+                            embeds: [
+                                new EmbedBuilder().setDescription(
+                                    receiveMessage
+                                ),
+                            ],
+                        })
+                    )
+                    .catch((err) => {
+                        console.error(err);
+                    });
         })
         .catch(async (error: any) => {
             await reaction.users.remove(user as User);
