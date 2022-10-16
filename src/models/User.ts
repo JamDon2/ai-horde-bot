@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema<IUserDocument>({
         send: { type: Number, default: 0 },
         receive: { type: Number, default: 0 },
     },
+    public: { type: Boolean, default: false },
 });
 
 export default mongoose.model<IUserDocument>("User", UserSchema);

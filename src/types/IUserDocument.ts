@@ -6,6 +6,7 @@ interface IUserDocument {
         send: number;
         receive: number;
     };
+    public: boolean;
 }
 
 export default IUserDocument;
