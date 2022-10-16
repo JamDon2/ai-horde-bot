@@ -27,6 +27,7 @@
     "horde": {
         "baseUrl": "https://stablehorde.net/api/v2"
     },
+    "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
     "clientId": "YOUR_BOTS_CLIENT_ID"

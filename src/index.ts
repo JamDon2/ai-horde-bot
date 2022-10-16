@@ -7,11 +7,13 @@ import {
 } from "discord.js";
 import Mustache from "mustache";
 import "dotenv/config";
+import humanizeDuration from "humanize-duration";
 
 import config from "./config.js";
 import { commandHandlers } from "./commands.js";
 import api from "./api/client.js";
 import User from "./models/User.js";
+import KudosEscrow from "./models/KudosEscrow.js";
 
 const client = new Client({
     intents: [
@@ -64,17 +66,42 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 .catch((err) => {
                     console.error(err);
                 });
-        else if (!recipient)
+        else if (!recipient) {
+            await new KudosEscrow({
+                from: user.id,
+                to: message.author.id,
+                amount: emojiDetails.value,
+            }).save();
+
             message.author
                 .createDM()
                 .then((dm) =>
                     dm.send(
-                        "Someone has tried to give you kudos, but you are not logged in. Please use /login in the server."
+                        `Someone has tried to give you kudos, but you are not logged in. Please use /login in the server within ${humanizeDuration(
+                            config.escrowtime * 1000,
+                            { largest: 2 }
+                        )} to claim your kudos.`
                     )
                 )
                 .catch((err) => {
                     console.error(err);
                 });
+
+            user.createDM()
+                .then((dm) =>
+                    dm.send(
+                        `<@${
+                            message.author.id
+                        }> is not logged in. If they log in within ${humanizeDuration(
+                            config.escrowtime * 1000,
+                            { largest: 2 }
+                        )} they will receive the reward.`
+                    )
+                )
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
 
         await reaction.users.remove(user);
         return;

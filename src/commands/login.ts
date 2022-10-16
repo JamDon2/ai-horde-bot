@@ -1,7 +1,9 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
-
+import Mustache from "mustache";
 import api from "../api/client.js";
+import config from "../config.js";
+import KudosEscrow from "../models/KudosEscrow.js";
 import IUserDocument from "../types/IUserDocument.js";
 
 export default {
@@ -61,6 +63,45 @@ export default {
             });
 
             await user.save();
+
+            const docs = await KudosEscrow.find({ to: interaction.user.id });
+
+            docs.forEach(async (doc) => {
+                const sender = await User.findById(doc.from);
+
+                if (sender) {
+                    const receiveMessage = Mustache.render(
+                        config.defaultMessage,
+                        {
+                            amount: doc.amount,
+                            user_mention: `<@${user.id}> `,
+                            message_url: null,
+                        },
+                        undefined,
+                        { escape: (val) => val }
+                    );
+
+                    await api
+                        .post(
+                            "/kudos/transfer",
+                            {
+                                username: user.username,
+                                amount: doc.amount,
+                            },
+                            { headers: { apikey: sender.apiKey } }
+                        )
+                        .then(async () => {
+                            interaction.user.createDM().then((dm) => {
+                                dm.send(receiveMessage);
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+
+                await doc.delete();
+            });
 
             interaction.followUp({
                 content: "You have linked your account.",
