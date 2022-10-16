@@ -14,10 +14,7 @@ export default {
                 .setDescription("Your API key.")
                 .setRequired(true)
         ),
-    async handler(
-        interaction: CommandInteraction,
-        userModel: Model<IUserDocument>
-    ) {
+    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
         await interaction.deferReply({ ephemeral: true });
 
         const apiKey = interaction.options.get("api-key", true).value as string;
@@ -44,7 +41,7 @@ export default {
             return;
         }
 
-        const result = await userModel.findById(interaction.user.id);
+        const result = await User.findById(interaction.user.id);
 
         if (result) {
             result.apiKey = apiKey;
@@ -57,7 +54,7 @@ export default {
                 ephemeral: true,
             });
         } else {
-            const user = new userModel({
+            const user = new User({
                 _id: interaction.user.id,
                 apiKey,
                 username: data.username,

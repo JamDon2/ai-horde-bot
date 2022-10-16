@@ -19,7 +19,7 @@ export const commands: Omit<
 export const commandHandlers: {
     [key: string]: (
         interaction: CommandInteraction,
-        userModel: Model<IUserDocument>
+        User: Model<IUserDocument>
     ) => Promise<void>;
 } = {
     login: login.handler,

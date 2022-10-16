@@ -17,13 +17,10 @@ export default {
                 )
                 .setRequired(true)
         ),
-    async handler(
-        interaction: CommandInteraction,
-        userModel: Model<IUserDocument>
-    ) {
+    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
         await interaction.deferReply({ ephemeral: true });
 
-        const user = await userModel.findById(interaction.user.id);
+        const user = await User.findById(interaction.user.id);
 
         if (!user) {
             await interaction.followUp(
