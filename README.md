@@ -32,6 +32,7 @@ The `config.json` file contains the following properties:
         -   {{message_url}}: A URL for the message that was reacted to
 -   `horde`: This contains the specific horde to be used.
     -   `baseUrl`: The API endpoint for the horde.
+-   `escrowtime`: Time in seconds to remember a reward for, if the recipient isn't logged in
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.
 -   `clientId`: The client ID of the bot.
