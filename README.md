@@ -1,4 +1,4 @@
-# Stable Horde Bot
+# AI Horde Bot
 
 ## Configuration
 
@@ -14,6 +14,8 @@ The `config.json` file contains the following properties:
         -   {{amount}}: The amount of kudos formatted with the region `en-US`
         -   {{user_mention}}: The mention string for the sender
         -   {{message_url}}: A URL for the message that was reacted to
+-   `horde`: This contains the specific horde to be used.
+    -   `baseUrl`: The API endpoint for the horde.
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.
 -   `clientId`: The client ID of the bot.
@@ -36,7 +38,7 @@ It should contain these variables:
 ### Running
 
 -   `cd` into the project directory
--   Build the docker image: `sudo docker build -t stable-horde-bot .`
+-   Build the docker image: `sudo docker build -t ai-horde-bot .`
 -   Copy `.env.example` to `.env` and fill in the values
 -   Make a copy of `config.example.json` and name it `config.json` and fill it in
 -   Start the bot: `sudo docker-compose up` (use the `-d` flag to run detached)

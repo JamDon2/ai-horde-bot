@@ -7,6 +7,10 @@ type Config = {
             message: string | null | undefined;
         };
     };
+    horde: {
+        baseUrl: string;
+        name: string;
+    };
     defaultMessage: string;
     useEmojiNames: boolean;
     clientId: string;

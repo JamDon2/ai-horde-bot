@@ -24,6 +24,9 @@
             "message": "OMG, you got {{amount}} kudos from {{user_mention}}!"
         }
     },
+    "horde": {
+        "baseUrl": "https://stablehorde.net/api/v2"
+    },
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
     "clientId": "YOUR_BOTS_CLIENT_ID"

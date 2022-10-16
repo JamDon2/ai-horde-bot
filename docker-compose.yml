@@ -1,8 +1,8 @@
 version: "3.1"
 
 services:
-    stable-horde-bot:
-        image: stable-horde-bot
+    discord-bot:
+        image: ai-horde-bot
         restart: always
         depends_on:
             - mongo
@@ -11,7 +11,7 @@ services:
         env_file:
             - .env
 
-    mongo:
+    database:
         image: mongo
         restart: always
         expose:
