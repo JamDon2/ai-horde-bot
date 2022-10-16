@@ -50,6 +50,16 @@ It should contain these variables:
 
 -   [Docker](https://www.docker.com/)
 -   [Docker Compose](https://docs.docker.com/compose/)
+-   [Node.js](https://nodejs.org/en/) (>= 16.17.0, for deploying commands)
+-   [npm](https://www.npmjs.com/) (for deploying commands)
+
+### Deploying Commands
+
+To deploy the commands, run the following command in the root of the project:
+
+```bash
+npx ts-node-esm src/deploy-commands.ts
+```
 
 ### Running
 
