@@ -5,7 +5,7 @@ services:
         image: ai-horde-bot
         restart: always
         depends_on:
-            - mongo
+            - database
         volumes:
             - ./config.json:/usr/config.json
         env_file:
