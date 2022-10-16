@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema<IUserDocument>({
         receive: { type: Number, default: 0 },
     },
     public: { type: Boolean, default: false },
+    totalDonated: { type: Number, default: 0 },
 });
 
 export default mongoose.model<IUserDocument>("User", UserSchema);

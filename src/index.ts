@@ -115,7 +115,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
             },
             { headers: { apikey: sender.apiKey } }
         )
-        .then(() => {
+        .then(async () => {
             if (sendEnabled)
                 user.createDM()
                     .then((dm) =>
@@ -146,6 +146,10 @@ client.on("messageReactionAdd", async (reaction, user) => {
                     .catch((err) => {
                         console.error(err);
                     });
+
+            sender.totalDonated += emojiDetails.value;
+
+            await sender.save();
         })
         .catch(async (error: any) => {
             await reaction.users.remove(user as DiscordUser);

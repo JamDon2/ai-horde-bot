@@ -7,6 +7,7 @@ interface IUserDocument {
         receive: number;
     };
     public: boolean;
+    totalDonated: number;
 }
 
 export default IUserDocument;
