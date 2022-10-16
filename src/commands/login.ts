@@ -2,7 +2,7 @@ import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Collection } from "mongodb";
 
 import api from "../api/client.js";
-import HordeDocument from "../types/document.js";
+import IUserDocument from "../types/IUserDocument.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -16,7 +16,7 @@ export default {
         ),
     async handler(
         interaction: CommandInteraction,
-        collection: Collection<HordeDocument>
+        collection: Collection<IUserDocument>
     ) {
         await interaction.deferReply({ ephemeral: true });
 

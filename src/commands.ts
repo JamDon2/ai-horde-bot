@@ -3,7 +3,7 @@ import { Collection } from "mongodb";
 import balance from "./commands/balance.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
-import HordeDocument from "./types/document.js";
+import IUserDocument from "./types/IUserDocument.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -13,7 +13,7 @@ export const commands: Omit<
 export const commandHandlers: {
     [key: string]: (
         interaction: CommandInteraction,
-        collection: Collection<HordeDocument>
+        collection: Collection<IUserDocument>
     ) => Promise<void>;
 } = {
     login: login.handler,
