@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
+import { Model } from "mongoose";
 
 import api from "../api/client.js";
 import IUserDocument from "../types/IUserDocument.js";
@@ -10,11 +10,11 @@ export default {
         .setDescription("Query your Kudos balance."),
     async handler(
         interaction: CommandInteraction,
-        collection: Collection<IUserDocument>
+        userModel: Model<IUserDocument>
     ) {
         await interaction.deferReply({ ephemeral: true });
 
-        const user = await collection.findOne({ _id: interaction.user.id });
+        const user = await userModel.findById(interaction.user.id);
 
         if (!user) {
             await interaction.followUp(

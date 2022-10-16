@@ -1,8 +1,8 @@
 interface IUserDocument {
-    id: string;
+    _id: string;
     apiKey: string;
     username: string;
-    notifications?: {
+    notifications: {
         send: number;
         receive: number;
     };

@@ -1,8 +1,8 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 import "dotenv/config";
 
-const client = new MongoClient(process.env.MONGODB_URI as string);
+const client = await mongoose.connect(process.env.MONGODB_URI as string, {
+    dbName: process.env.MONGODB_DATABASE,
+});
 
-await client.connect();
-
-export default client.db(process.env.MONGODB_DATABASE);
+export default client;

@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
+import { Model } from "mongoose";
 
 import IUserDocument from "../types/IUserDocument.js";
 
@@ -26,11 +26,11 @@ export default {
         ),
     async handler(
         interaction: CommandInteraction,
-        collection: Collection<IUserDocument>
+        userModel: Model<IUserDocument>
     ) {
         await interaction.deferReply({ ephemeral: true });
 
-        const user = await collection.findOne({ _id: interaction.user.id });
+        const user = await userModel.findById(interaction.user.id);
 
         if (!user) {
             await interaction.followUp(
@@ -39,7 +39,9 @@ export default {
             return;
         }
 
-        const type = interaction.options.get("type", true).value as string;
+        const type = interaction.options.get("type", true).value as
+            | "send"
+            | "receive";
         const threshold = interaction.options.get("threshold")?.value as
             | number
             | undefined;
@@ -47,16 +49,9 @@ export default {
         const thresholdSpecified = threshold !== undefined;
         const unmute = threshold === 0;
 
-        await collection.updateOne(
-            { _id: interaction.user.id },
-            {
-                $set: {
-                    [`notifications.${type}`]: thresholdSpecified
-                        ? threshold
-                        : -1,
-                },
-            }
-        );
+        user.notifications[type] = thresholdSpecified ? threshold : -1;
+
+        await user.save();
 
         await interaction.followUp(
             unmute

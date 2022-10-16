@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
+import { Model } from "mongoose";
 import balance from "./commands/balance.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
@@ -13,7 +13,7 @@ export const commands: Omit<
 export const commandHandlers: {
     [key: string]: (
         interaction: CommandInteraction,
-        collection: Collection<IUserDocument>
+        userModel: Model<IUserDocument>
     ) => Promise<void>;
 } = {
     login: login.handler,

@@ -3,19 +3,15 @@ import {
     EmbedBuilder,
     GatewayIntentBits,
     Partials,
-    User,
+    User as DiscordUser,
 } from "discord.js";
 import Mustache from "mustache";
 import "dotenv/config";
 
-import db from "./db/client.js";
 import config from "./config.js";
 import { commandHandlers } from "./commands.js";
 import api from "./api/client.js";
-import { Collection } from "mongodb";
-import IUserDocument from "./types/IUserDocument.js";
-
-const usersCollection: Collection<IUserDocument> = db.collection("users");
+import User from "./models/User.js";
 
 const client = new Client({
     intents: [
@@ -31,7 +27,7 @@ client.on("interactionCreate", (interaction) => {
 
     if (!commandHandlers[interaction.commandName]) return;
 
-    commandHandlers[interaction.commandName](interaction, usersCollection);
+    commandHandlers[interaction.commandName](interaction, User);
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
@@ -54,8 +50,8 @@ client.on("messageReactionAdd", async (reaction, user) => {
         return;
     }
 
-    const sender = await usersCollection.findOne({ _id: user.id });
-    const recipient = await usersCollection.findOne({ _id: message.author.id });
+    const sender = await User.findById(user.id);
+    const recipient = await User.findById(message.author.id);
 
     if (!sender || !recipient) {
         if (!sender)
@@ -152,7 +148,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                     });
         })
         .catch(async (error: any) => {
-            await reaction.users.remove(user as User);
+            await reaction.users.remove(user as DiscordUser);
 
             if (
                 error.response?.status === 400 &&

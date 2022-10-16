@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
+import { Model } from "mongoose";
 
 import api from "../api/client.js";
 import IUserDocument from "../types/IUserDocument.js";
@@ -16,7 +16,7 @@ export default {
         ),
     async handler(
         interaction: CommandInteraction,
-        collection: Collection<IUserDocument>
+        userModel: Model<IUserDocument>
     ) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -44,29 +44,26 @@ export default {
             return;
         }
 
-        const result = await collection.findOne({ _id: interaction.user.id });
+        const result = await userModel.findById(interaction.user.id);
 
         if (result) {
-            await collection.updateOne(
-                { _id: interaction.user.id },
-                {
-                    $set: {
-                        apiKey,
-                        username: data.username,
-                    },
-                }
-            );
+            result.apiKey = apiKey;
+            result.username = data.username;
+
+            await result.save();
 
             interaction.followUp({
                 content: "Your API key has been updated.",
                 ephemeral: true,
             });
         } else {
-            await collection.insertOne({
+            const user = new userModel({
                 _id: interaction.user.id,
                 apiKey,
                 username: data.username,
             });
+
+            await user.save();
 
             interaction.followUp({
                 content: "You have linked your account.",
