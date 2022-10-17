@@ -3,6 +3,7 @@ interface IKudosEscrow {
     to: string;
     emoji: string;
     createdAt: Date;
+    messageURL: string;
 }
 
 export default IKudosEscrow;

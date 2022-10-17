@@ -12,6 +12,7 @@ const KudosEscrowSchema = new mongoose.Schema<IKudosEscrow>({
         expires: config.escrowtime,
         required: true,
     },
+    messageURL: { type: String, required: true },
 });
 
 export default mongoose.model<IKudosEscrow>("KudosEscrow", KudosEscrowSchema);

@@ -82,7 +82,8 @@ export default {
                             sendDM: true,
                         },
                         { id: user._id, username: user.username, sendDM: true },
-                        doc.emoji
+                        doc.emoji,
+                        doc.messageURL
                     ).catch(console.error);
                 }
 

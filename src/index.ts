@@ -65,6 +65,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 from: user.id,
                 to: message.author.id,
                 emoji: emojiIdentifier,
+                messageURL: message.url,
             }).save();
 
             message.author
