@@ -6,6 +6,7 @@ import {
 import { Model } from "mongoose";
 
 import api from "../api/client.js";
+import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
 
 export default {
@@ -68,7 +69,14 @@ export default {
                     .setDescription(
                         `**Kudos**: ${userDetails.kudos.toLocaleString(
                             "en-US"
-                        )}`
+                        )}\n**Worker count**: ${
+                            userDetails.worker_count
+                        }\n**Trusted**: ${userDetails.trusted ? "Yes" : "No"}`
+                    )
+                    .setURL(
+                        `${config.horde.baseUrl}/users/${
+                            user.username.split("#")[1]
+                        }`
                     )
                     .addFields([
                         {
