@@ -1,10 +1,9 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
-import Mustache from "mustache";
 import api from "../api/client.js";
-import config from "../config.js";
 import KudosEscrow from "../models/KudosEscrow.js";
 import IUserDocument from "../types/IUserDocument.js";
+import { sendKudos } from "../util/sendKudos.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -16,7 +15,11 @@ export default {
                 .setDescription("Your API key.")
                 .setRequired(true)
         ),
-    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
+    async handler(
+        interaction: CommandInteraction,
+        User: Model<IUserDocument>,
+        client: Client
+    ) {
         await interaction.deferReply({ ephemeral: true });
 
         const apiKey = interaction.options.get("api-key", true).value as string;
@@ -70,34 +73,17 @@ export default {
                 const sender = await User.findById(doc.from);
 
                 if (sender) {
-                    const receiveMessage = Mustache.render(
-                        config.defaultMessage,
+                    await sendKudos(
+                        client,
+                        User,
                         {
-                            amount: doc.amount,
-                            user_mention: `<@${doc.from}> `,
-                            message_url: null,
+                            id: sender._id,
+                            apiKey: sender.apiKey,
+                            sendDM: true,
                         },
-                        undefined,
-                        { escape: (val) => val }
-                    );
-
-                    await api
-                        .post(
-                            "/kudos/transfer",
-                            {
-                                username: user.username,
-                                amount: doc.amount,
-                            },
-                            { headers: { apikey: sender.apiKey } }
-                        )
-                        .then(async () => {
-                            interaction.user.createDM().then((dm) => {
-                                dm.send(receiveMessage);
-                            });
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
+                        { id: user._id, username: user.username, sendDM: true },
+                        doc.emoji
+                    ).catch(console.error);
                 }
 
                 await doc.delete();

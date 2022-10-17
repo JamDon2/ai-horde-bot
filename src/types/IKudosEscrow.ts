@@ -1,7 +1,7 @@
 interface IKudosEscrow {
     from: string;
     to: string;
-    amount: number;
+    emoji: string;
     createdAt: Date;
 }
 

@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
 import balance from "./commands/balance.js";
 import login from "./commands/login.js";
@@ -19,7 +19,8 @@ export const commands: Omit<
 export const commandHandlers: {
     [key: string]: (
         interaction: CommandInteraction,
-        User: Model<IUserDocument>
+        User: Model<IUserDocument>,
+        client: Client
     ) => Promise<void>;
 } = {
     login: login.handler,

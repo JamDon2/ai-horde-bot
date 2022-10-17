@@ -5,7 +5,7 @@ import IKudosEscrow from "../types/IKudosEscrow.js";
 const KudosEscrowSchema = new mongoose.Schema<IKudosEscrow>({
     from: { type: String, required: true },
     to: { type: String, required: true, index: true },
-    amount: { type: Number, required: true },
+    emoji: { type: String, required: true },
     createdAt: {
         type: Date,
         default: Date.now,

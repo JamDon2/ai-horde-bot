@@ -1,19 +1,13 @@
-import {
-    Client,
-    EmbedBuilder,
-    GatewayIntentBits,
-    Partials,
-    User as DiscordUser,
-} from "discord.js";
-import Mustache from "mustache";
+import { Client, GatewayIntentBits, Partials } from "discord.js";
+
 import "dotenv/config";
 import humanizeDuration from "humanize-duration";
 
 import config from "./config.js";
 import { commandHandlers } from "./commands.js";
-import api from "./api/client.js";
 import User from "./models/User.js";
 import KudosEscrow from "./models/KudosEscrow.js";
+import { sendKudos } from "./util/sendKudos.js";
 
 const client = new Client({
     intents: [
@@ -29,7 +23,7 @@ client.on("interactionCreate", (interaction) => {
 
     if (!commandHandlers[interaction.commandName]) return;
 
-    commandHandlers[interaction.commandName](interaction, User);
+    commandHandlers[interaction.commandName](interaction, User, client);
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
@@ -70,7 +64,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
             await new KudosEscrow({
                 from: user.id,
                 to: message.author.id,
-                amount: emojiDetails.value,
+                emoji: emojiIdentifier,
             }).save();
 
             message.author
@@ -107,17 +101,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
         return;
     }
 
-    const receiveMessage = Mustache.render(
-        emojiDetails.message || config.defaultMessage,
-        {
-            amount: emojiDetails.value.toLocaleString("en-US"),
-            user_mention: `<@${user.id}> `,
-            message_url: message.url,
-        },
-        undefined,
-        { escape: (val) => val }
-    );
-
     let sendEnabled = true;
     let receiveEnabled = true;
 
@@ -133,67 +116,18 @@ client.on("messageReactionAdd", async (reaction, user) => {
             receiveEnabled = false;
     }
 
-    await api
-        .post(
-            "/kudos/transfer",
-            {
-                username: recipient.username,
-                amount: emojiDetails.value,
-            },
-            { headers: { apikey: sender.apiKey } }
-        )
-        .then(async () => {
-            if (sendEnabled)
-                user.createDM()
-                    .then((dm) =>
-                        dm.send(
-                            `You have given <@${
-                                message.author.id
-                            }> ${emojiDetails.value.toLocaleString(
-                                "en-US"
-                            )} kudos.`
-                        )
-                    )
-                    .catch((err) => {
-                        console.error(err);
-                    });
-
-            if (receiveEnabled)
-                message.author
-                    .createDM()
-                    .then((dm) =>
-                        dm.send({
-                            embeds: [
-                                new EmbedBuilder().setDescription(
-                                    receiveMessage
-                                ),
-                            ],
-                        })
-                    )
-                    .catch((err) => {
-                        console.error(err);
-                    });
-
-            sender.totalDonated += emojiDetails.value;
-
-            await sender.save();
-        })
-        .catch(async (error: any) => {
-            await reaction.users.remove(user as DiscordUser);
-
-            if (
-                error.response?.status === 400 &&
-                error.response?.data?.message === "Not enough kudos."
-            ) {
-                user.createDM()
-                    .then((dm) => dm.send("You don't have enough kudos."))
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            } else {
-                console.error(error);
-            }
-        });
+    await sendKudos(
+        client,
+        User,
+        { id: user.id, apiKey: sender.apiKey, sendDM: sendEnabled },
+        {
+            id: message.author.id,
+            username: recipient.username,
+            sendDM: receiveEnabled,
+        },
+        emojiIdentifier,
+        reaction.message.url
+    ).catch(console.error);
 });
 
 client.login(process.env.TOKEN);
