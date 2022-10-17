@@ -126,7 +126,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
             sendDM: receiveEnabled,
         },
         emojiIdentifier,
-        reaction.message.url
+        message.url
     ).catch(console.error);
 });
 
