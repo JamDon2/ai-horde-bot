@@ -1,6 +1,7 @@
 import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
 import balance from "./commands/balance.js";
+import info from "./commands/info.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
 import setpublic from "./commands/setpublic.js";
@@ -14,6 +15,7 @@ export const commands: Omit<
     balance.command,
     muteNotifications.command,
     setpublic.command,
+    info.command,
 ];
 
 export const commandHandlers: {
@@ -27,4 +29,5 @@ export const commandHandlers: {
     balance: balance.handler,
     "mute-notifications": muteNotifications.handler,
     setpublic: setpublic.handler,
+    info: info.handler,
 };
