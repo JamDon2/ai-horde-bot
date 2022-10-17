@@ -74,7 +74,7 @@ export default {
                         config.defaultMessage,
                         {
                             amount: doc.amount,
-                            user_mention: `<@${user.id}> `,
+                            user_mention: `<@${doc.from}> `,
                             message_url: null,
                         },
                         undefined,
