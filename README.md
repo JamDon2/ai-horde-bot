@@ -56,7 +56,7 @@ It should contain these variables:
 
 ### Deploying Commands
 
-To deploy the commands, run the following command in the root of the project:
+Install the dependencies with `npm install`, and run the following command in the root of the project:
 
 ```bash
 npx ts-node-esm src/deploy-commands.ts
