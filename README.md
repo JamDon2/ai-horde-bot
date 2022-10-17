@@ -8,7 +8,7 @@ It will also provide some commands to get information about Stable Horde account
 
 To use this bot on your own server, simply [invite it](https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D1019572037360025650%26permissions%3D8192%26scope%3Dbot)
 
-You will also need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [/config.json](config.json)
+You will also need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
 
 Any time that emoji is reacted with, it will transfer the same amount of kudos. For this to work, both the reactor and the reactee, needs to have logged in to the Kudos bot with `/login` command. If either of them has not, the emoji will be removed and whoever is missing it, will receive a private message from the bot to log in.
 
@@ -32,6 +32,7 @@ The `config.json` file contains the following properties:
         -   {{message_url}}: A URL for the message that was reacted to
 -   `horde`: This contains the specific horde to be used.
     -   `baseUrl`: The API endpoint for the horde.
+-   `escrowtime`: Time in seconds to remember a reward for, if the recipient isn't logged in
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.
 -   `clientId`: The client ID of the bot.
@@ -55,7 +56,7 @@ It should contain these variables:
 
 ### Deploying Commands
 
-To deploy the commands, run the following command in the root of the project:
+Install the dependencies with `npm install`, and run the following command in the root of the project:
 
 ```bash
 npx ts-node-esm src/deploy-commands.ts
