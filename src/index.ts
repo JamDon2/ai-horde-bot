@@ -50,7 +50,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
     const recipient = await User.findById(message.author.id);
 
     if (!sender || !recipient) {
-        if (!sender)
+        if (!sender) {
             user.createDM()
                 .then((dm) =>
                     dm.send(
@@ -60,7 +60,8 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 .catch((err) => {
                     console.error(err);
                 });
-        else if (!recipient) {
+            await reaction.users.remove(user);
+        } else if (!recipient) {
             await new KudosEscrow({
                 from: user.id,
                 to: message.author.id,
@@ -98,7 +99,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 });
         }
 
-        await reaction.users.remove(user);
         return;
     }
 
