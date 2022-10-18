@@ -37,8 +37,6 @@ export default async function autorole(
         const worker = userDetails.worker_count > 0;
         const trusted = userDetails.trusted;
 
-        console.log(worker, trusted);
-
         if (config.autorole.worker && worker && !hasWorker) {
             await member.roles.add(config.autorole.worker);
         }
