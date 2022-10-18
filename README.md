@@ -6,7 +6,7 @@ It will also provide some commands to get information about Stable Horde account
 
 ## Using
 
-To use this bot on your own server, simply [invite it](https://discord.com/login?redirect_to=%2Foauth2%2Fauthorize%3Fclient_id%3D1019572037360025650%26permissions%3D8192%26scope%3Dbot)
+To use this bot on your own server, simply [invite it](https://discord.com/oauth2/authorize?client_id=1019572037360025650&permissions=8192&scope=bot)
 
 You will also need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
 
