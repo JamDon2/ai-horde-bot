@@ -30,7 +30,7 @@ export default async function autorole(
 
         if (hasWorker && hasTrusted) return;
 
-        const user = await User.findOne({ id: interaction.user.id });
+        const user = await User.findById(interaction.user.id);
 
         if (!user) return;
 

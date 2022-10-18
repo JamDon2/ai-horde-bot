@@ -11,8 +11,8 @@ const commandHooks: {
     ) => Promise<void>)[];
 } = {
     preCommand: [],
-    inCommand: [autorole],
-    postCommand: [],
+    inCommand: [],
+    postCommand: [autorole],
 };
 
 export async function preCommand(
