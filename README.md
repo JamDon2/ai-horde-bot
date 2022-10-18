@@ -34,8 +34,8 @@ The `config.json` file contains the following properties:
     -   `baseUrl`: The API endpoint for the horde.
 -   `autorole`: This contains the autorole module configuration.
     -   `enabled`: Whether the module is enabled.
-    -   `worker`: The role to be given to users who have at least one worker.
-    -   `trusted`: The role to be given to users who are trusted.
+    -   `worker`: An object containing server IDs, and the worker role for the server in question.
+    -   `trusted`: An object containing server IDs, and the worker role for the server in question.
 -   `escrowtime`: Time in seconds to remember a reward for, if the recipient isn't logged in
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.

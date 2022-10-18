@@ -13,8 +13,8 @@ type Config = {
     };
     autorole: {
         enabled: true;
-        worker: string;
-        trusted: string;
+        worker: { [key: string]: string };
+        trusted: { [key: string]: string };
     };
     escrowtime: number;
     defaultMessage: string;
