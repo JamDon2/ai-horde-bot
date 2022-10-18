@@ -7,9 +7,14 @@ type Config = {
             message: string | null | undefined;
         };
     };
+    horde: {
+        baseUrl: string;
+        name: string;
+    };
     defaultMessage: string;
     useEmojiNames: boolean;
     clientId: string;
+    escrowtime: number;
 };
 
 const config: Config = JSON.parse(fs.readFileSync("./config.json", "utf-8"));

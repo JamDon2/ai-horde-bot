@@ -22,5 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
-# config.json
+config.json
 db/

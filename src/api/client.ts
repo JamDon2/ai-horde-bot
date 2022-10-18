@@ -1,5 +1,6 @@
 import axios from "axios";
+import config from "../config.js";
 
 export default axios.create({
-    baseURL: "https://stablehorde.net/api/v2",
+    baseURL: config.horde.baseUrl,
 });

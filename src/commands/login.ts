@@ -1,8 +1,9 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
-
+import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import { Model } from "mongoose";
 import api from "../api/client.js";
-import HordeDocument from "../types/document.js";
+import KudosEscrow from "../models/KudosEscrow.js";
+import IUserDocument from "../types/IUserDocument.js";
+import { sendKudos } from "../util/sendKudos.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -16,7 +17,8 @@ export default {
         ),
     async handler(
         interaction: CommandInteraction,
-        collection: Collection<HordeDocument>
+        User: Model<IUserDocument>,
+        client: Client
     ) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -44,28 +46,48 @@ export default {
             return;
         }
 
-        const result = await collection.findOne({ _id: interaction.user.id });
+        const result = await User.findById(interaction.user.id);
 
         if (result) {
-            await collection.updateOne(
-                { _id: interaction.user.id },
-                {
-                    $set: {
-                        apiKey,
-                        username: data.username,
-                    },
-                }
-            );
+            result.apiKey = apiKey;
+            result.username = data.username;
+
+            await result.save();
 
             interaction.followUp({
                 content: "Your API key has been updated.",
                 ephemeral: true,
             });
         } else {
-            await collection.insertOne({
+            const user = new User({
                 _id: interaction.user.id,
                 apiKey,
                 username: data.username,
+            });
+
+            await user.save();
+
+            const docs = await KudosEscrow.find({ to: interaction.user.id });
+
+            docs.forEach(async (doc) => {
+                const sender = await User.findById(doc.from);
+
+                if (sender) {
+                    await sendKudos(
+                        client,
+                        User,
+                        {
+                            id: sender._id,
+                            apiKey: sender.apiKey,
+                            sendDM: true,
+                        },
+                        { id: user._id, username: user.username, sendDM: true },
+                        doc.emoji,
+                        doc.messageURL
+                    ).catch(console.error);
+                }
+
+                await doc.delete();
             });
 
             interaction.followUp({

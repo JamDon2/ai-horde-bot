@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Collection } from "mongodb";
+import { Model } from "mongoose";
 
-import HordeDocument from "../types/document.js";
+import IUserDocument from "../types/IUserDocument.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -24,13 +24,10 @@ export default {
                 .setName("threshold")
                 .setDescription("The threshold to mute notifications at.")
         ),
-    async handler(
-        interaction: CommandInteraction,
-        collection: Collection<HordeDocument>
-    ) {
+    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
         await interaction.deferReply({ ephemeral: true });
 
-        const user = await collection.findOne({ _id: interaction.user.id });
+        const user = await User.findById(interaction.user.id);
 
         if (!user) {
             await interaction.followUp(
@@ -39,7 +36,9 @@ export default {
             return;
         }
 
-        const type = interaction.options.get("type", true).value as string;
+        const type = interaction.options.get("type", true).value as
+            | "send"
+            | "receive";
         const threshold = interaction.options.get("threshold")?.value as
             | number
             | undefined;
@@ -47,16 +46,9 @@ export default {
         const thresholdSpecified = threshold !== undefined;
         const unmute = threshold === 0;
 
-        await collection.updateOne(
-            { _id: interaction.user.id },
-            {
-                $set: {
-                    [`notifications.${type}`]: thresholdSpecified
-                        ? threshold
-                        : -1,
-                },
-            }
-        );
+        user.notifications[type] = thresholdSpecified ? threshold : -1;
+
+        await user.save();
 
         await interaction.followUp(
             unmute
