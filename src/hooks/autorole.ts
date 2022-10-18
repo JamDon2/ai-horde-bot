@@ -14,8 +14,12 @@ export default async function autorole(
             interaction.user.id
         );
 
-        const hasWorker = member.roles.cache.has(config.autorole.worker);
-        const hasTrusted = member.roles.cache.has(config.autorole.trusted);
+        const hasWorker = member.roles.cache.has(
+            config.autorole.worker[interaction.guild.id]
+        );
+        const hasTrusted = member.roles.cache.has(
+            config.autorole.trusted[interaction.guild.id]
+        );
 
         if (hasWorker && hasTrusted) return;
 
@@ -38,11 +42,15 @@ export default async function autorole(
         const trusted = userDetails.trusted;
 
         if (config.autorole.worker && worker && !hasWorker) {
-            await member.roles.add(config.autorole.worker);
+            await member.roles.add(
+                config.autorole.worker[interaction.guild.id]
+            );
         }
 
         if (config.autorole.trusted && trusted && !hasTrusted) {
-            await member.roles.add(config.autorole.trusted);
+            await member.roles.add(
+                config.autorole.trusted[interaction.guild.id]
+            );
         }
     }
 }
