@@ -32,6 +32,12 @@
     "horde": {
         "baseUrl": "https://stablehorde.net/api/v2"
     },
+    "autorole": {
+        "enabled": true,
+        "worker": { "SERVER_ID": "ROLE_ID" },
+        "trusted": { "SERVER_ID": "ROLE_ID" }
+    },
+    "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
     "clientId": "1019572037360025650"
