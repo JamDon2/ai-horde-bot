@@ -8,6 +8,7 @@ import { commandHandlers } from "./commands.js";
 import User from "./models/User.js";
 import KudosEscrow from "./models/KudosEscrow.js";
 import { sendKudos } from "./util/sendKudos.js";
+import { preCommand, inCommand, postCommand } from "./commandHooks.js";
 
 const client = new Client({
     intents: [
@@ -18,12 +19,19 @@ const client = new Client({
     partials: [Partials.Reaction, Partials.Message],
 });
 
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
     if (!interaction.isCommand()) return;
 
     if (!commandHandlers[interaction.commandName]) return;
 
-    commandHandlers[interaction.commandName](interaction, User, client);
+    await preCommand(interaction, User, client);
+
+    await Promise.all([
+        commandHandlers[interaction.commandName](interaction, User, client),
+        inCommand(interaction, User, client),
+    ]);
+
+    await postCommand(interaction, User, client);
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
