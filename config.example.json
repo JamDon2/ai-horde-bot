@@ -34,8 +34,8 @@
     },
     "autorole": {
         "enabled": true,
-        "worker": { "781145214752129095": "Stable Horde: Worker" },
-        "trusted": { "781145214752129095": "Stable Horde: Trusted" }
+        "worker": { "SERVER_ID": "ROLE_ID" },
+        "trusted": { "SERVER_ID": "ROLE_ID" }
     },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
