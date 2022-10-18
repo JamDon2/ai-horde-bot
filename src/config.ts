@@ -11,10 +11,15 @@ type Config = {
         baseUrl: string;
         name: string;
     };
+    autorole: {
+        enabled: true;
+        worker: string;
+        trusted: string;
+    };
+    escrowtime: number;
     defaultMessage: string;
     useEmojiNames: boolean;
     clientId: string;
-    escrowtime: number;
 };
 
 const config: Config = JSON.parse(fs.readFileSync("./config.json", "utf-8"));
