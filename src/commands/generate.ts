@@ -201,7 +201,7 @@ export default {
             censor_nsfw: isfw,
             nsfw: !isfw,
             params: {
-                seed: `${seed}`,
+                seed: iterations === 1 ? `${seed}` : undefined,
                 width: width,
                 height: height,
                 cfg_scale: cfg,
@@ -210,6 +210,7 @@ export default {
                 variant_amount: 1,
             },
         };
+
         const data = await hordeGenerate(
             (await User.findById(interaction.user.id))?.apiKey ?? "00000000",
             params,
@@ -232,13 +233,16 @@ export default {
             embeds: [
                 {
                     title: prompt.slice(0, 200) + "...",
-                    fields: [
-                        {
-                            name: "Seed",
-                            value: `${seed}`,
-                            inline: true,
-                        },
-                    ],
+                    fields:
+                        iterations === 1
+                            ? [
+                                  {
+                                      name: "Seed",
+                                      value: `${seed}`,
+                                      inline: true,
+                                  },
+                              ]
+                            : undefined,
                     image: {
                         url: `attachment://generation.png`,
                     },
