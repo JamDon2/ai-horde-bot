@@ -181,7 +181,7 @@ export default {
             50
         );
 
-        const prompt = interaction.options.get("prompt")?.value as string;
+        const prompt = interaction.options.get("prompt", true).value as string;
 
         const isfw = false;
 
