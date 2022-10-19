@@ -62,15 +62,14 @@ export default async function (
                         ],
                     });
                     if (
-                        interaction.createdAt.getTime() + 1000 * 60 * 10 >
+                        interaction.createdAt.getTime() + 1000 * 60 * 10 <=
                         Date.now()
                     ) {
-                        setTimeout(checkItem, 10000);
-                    } else {
+                        clearInterval(checkInterval);
                         reject("Generation timed out");
                     }
                 };
-                setTimeout(checkItem, 10000);
+                const checkInterval = setInterval(checkItem, 10000);
             });
         })
         .catch(async () => {
