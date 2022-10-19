@@ -1,15 +1,14 @@
 import {
     AttachmentBuilder,
-    Client,
     CommandInteraction,
     SlashCommandBuilder,
-} from 'discord.js'
+} from "discord.js"
 
-import IUserDocument from '../types/IUserDocument.js'
-import { imageJoin } from '../util/imageJoin.js'
-import { Model } from 'mongoose'
+import IUserDocument from "../types/IUserDocument.js"
+import { imageJoin } from "../util/imageJoin.js"
+import { Model } from "mongoose"
 
-import { hordeGenerate } from '../util/async.js'
+import { hordeGenerate } from "../util/async.js"
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
     fantasy: (p) =>
@@ -28,20 +27,28 @@ const styles: Record<string, (s: string) => string> = {
         `${p} award-winning butter sculpture at the Minnesota State Fair, made of butter, dairy creation`,
 }
 
+const cleanNumberInput = (s: string | undefined, fallback: number) => {
+    try {
+        return s ? Number(s) : fallback
+    } catch {
+        return fallback
+    }
+}
+
 export default {
     command: new SlashCommandBuilder()
-        .setName('stablehorde')
-        .setDescription('use stable hoard')
+        .setName("stablehorde")
+        .setDescription("use stable hoard")
         .addStringOption((option) =>
             option
-                .setName('prompt')
-                .setDescription('What to ask stable diffusion')
+                .setName("prompt")
+                .setDescription("What to ask stable diffusion")
                 .setRequired(true)
         )
         .addStringOption((option) =>
             option
-                .setName('style')
-                .setDescription('What style to use')
+                .setName("style")
+                .setDescription("What style to use")
                 .setRequired(true)
                 .addChoices(
                     ...Object.keys(styles).map((style) => ({
@@ -52,32 +59,20 @@ export default {
         )
         .addStringOption((option) =>
             option
-                .setName('seed')
-                .setDescription('The seed to use')
+                .setName("seed")
+                .setDescription("The seed to use")
                 .setRequired(false)
         )
         .addStringOption((option) =>
             option
-                .setName('steps')
-                .setDescription('The number of steps to use')
+                .setName("steps")
+                .setDescription("The number of steps to use")
                 .setRequired(false)
         )
         .addStringOption((option) =>
             option
-                .setName('width')
-                .setDescription('The width of the image')
-                .setRequired(false)
-                .addChoices(
-                    ...[...Array(17).keys()].slice(1).map((i) => ({
-                        name: (i * 64).toString(),
-                        value: (i * 64).toString(),
-                    }))
-                )
-        )
-        .addStringOption((option) =>
-            option
-                .setName('height')
-                .setDescription('The height of the image')
+                .setName("width")
+                .setDescription("The width of the image")
                 .setRequired(false)
                 .addChoices(
                     ...[...Array(17).keys()].slice(1).map((i) => ({
@@ -88,32 +83,40 @@ export default {
         )
         .addStringOption((option) =>
             option
-                .setName('iterations')
-                .setDescription('The number of images to generate(colab only)')
+                .setName("height")
+                .setDescription("The height of the image")
+                .setRequired(false)
+                .addChoices(
+                    ...[...Array(17).keys()].slice(1).map((i) => ({
+                        name: (i * 64).toString(),
+                        value: (i * 64).toString(),
+                    }))
+                )
+        )
+        .addStringOption((option) =>
+            option
+                .setName("iterations")
+                .setDescription("The number of images to generate(colab only)")
                 .setRequired(false)
                 .addChoices(
                     ...[
-                        { name: 'single', value: '1' },
-                        { name: '4 panel', value: '4' },
-                        { name: '9 panel', value: '9' },
+                        { name: "single", value: "1" },
+                        { name: "4 panel", value: "4" },
+                        { name: "9 panel", value: "9" },
                     ]
                 )
         )
         .addStringOption((option) =>
             option
-                .setName('cfg')
-                .setDescription('The cfg to use')
+                .setName("cfg")
+                .setDescription("The cfg to use")
                 .setRequired(false)
         ),
 
-    async handler(
-        interaction: CommandInteraction,
-        User: Model<IUserDocument>,
-        client: Client
-    ) {
+    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
         const optionsString = interaction.options.data
             .map((option) => `${option.name}: ${option.value}`)
-            .join(', ')
+            .join(", ")
         if (!interaction.replied) {
             await interaction.reply(
                 `Generating image with stablehoard with stable diffusion with options ${optionsString}. Ideal generation time is below 2 minutes`
@@ -124,80 +127,77 @@ export default {
             )
         }
 
-        const iseed = interaction.options.get('seed')?.value as string
+        const iseed = interaction.options.get("seed")?.value as string
 
         const createSeed =
-            iseed && !iseed.includes('[')
+            iseed && !iseed.includes("[")
                 ? Number(iseed)
                 : Math.round(Math.random() * 10000)
 
         const newSeed = createSeed
 
         const bannedWords = [
-            'child',
-            'children',
-            'kid',
-            'kids',
-            'baby',
-            'babies',
-            'infant',
-            'infants',
-            'toddler',
-            'toddlers',
-            'teen',
-            'teens',
-            'teenager',
-            'teenagers',
-            'preteen',
-            'preteens',
-            'preteenager',
-            'preteenagers',
-            'schoolgirl',
-            'schoolgirls',
-            'schoolboy',
-            'schoolboys',
+            "child",
+            "children",
+            "kid",
+            "kids",
+            "baby",
+            "babies",
+            "infant",
+            "infants",
+            "toddler",
+            "toddlers",
+            "teen",
+            "teens",
+            "teenager",
+            "teenagers",
+            "preteen",
+            "preteens",
+            "preteenager",
+            "preteenagers",
+            "schoolgirl",
+            "schoolgirls",
+            "schoolboy",
+            "schoolboys",
         ]
 
         if (
             bannedWords.some((word) =>
-                (interaction.options.get('prompt')?.value as string)
+                (interaction.options.get("prompt")?.value as string)
                     .toLowerCase()
                     .includes(word)
             )
         ) {
             await interaction.editReply(
-                'Banned word detected. Please try again with a different prompt.'
+                "Banned word detected. Please try again with a different prompt."
             )
             return
         }
 
         const seed = newSeed
 
-        var width = (interaction.options.get('width')?.value as string) ?? '512'
-        var cfg = (interaction.options.get('cfg')?.value as string) ?? '7.5'
-        var iterations =
-            (interaction.options.get('iterations')?.value as string) ?? '1'
-        // Make sure cfg is a number
-        try {
-            if (isNaN(Number(cfg))) {
-                cfg = '7.5'
-            }
-        } catch (e) {
-            cfg = '7.5'
-        }
+        const width = cleanNumberInput(
+            interaction.options.get("width")?.value as string,
+            512
+        )
+        const cfg = cleanNumberInput(
+            interaction.options.get("cfg")?.value as string,
+            7.5
+        )
+        const iterations =
+            (interaction.options.get("iterations")?.value as string) ?? "1"
 
-        var height =
-            (interaction.options.get('height')?.value as string) ?? '512'
-        if (Math.min(Number(width), Number(height)) > 512) {
-            throw 'Image size too large. Maximum size for small side is 512'
-        }
-        var steps =
-            (interaction?.options?.get('steps')?.value as string) ?? '50'
-        const prompt = interaction.options.get('prompt')?.value as string
-        // remove anything non numeric
-        steps = steps.replace(/\D/g, '')
-        width = width.replace(/\D/g, '')
-        height = height.replace(/\D/g, '')
+        const height = cleanNumberInput(
+            interaction.options.get("height")?.value as string,
+            512
+        )
+
+        const steps = cleanNumberInput(
+            interaction.options.get("steps")?.value as string,
+            50
+        )
+
+        const prompt = interaction.options.get("prompt")?.value as string
 
         console.log(width, height)
 
@@ -217,7 +217,7 @@ export default {
             },
         }
         const data = await hordeGenerate(
-            (await User.findById(interaction.user.id))?.apiKey ?? '00000000',
+            (await User.findById(interaction.user.id))?.apiKey ?? "00000000",
             params,
             interaction
         )
@@ -226,7 +226,7 @@ export default {
             return
         }
 
-        const buff: Buffer[] = data.map((d) => Buffer.from(d, 'base64'))
+        const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"))
         const messageData = {
             content: null,
 
@@ -237,10 +237,10 @@ export default {
             ],
             embeds: [
                 {
-                    title: prompt.slice(0, 200) + '...',
+                    title: prompt.slice(0, 200) + "...",
                     fields: [
                         {
-                            name: 'Seed',
+                            name: "Seed",
                             value: `${seed}`,
                             inline: true,
                         },

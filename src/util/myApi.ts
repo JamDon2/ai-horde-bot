@@ -163,19 +163,20 @@ export interface GenerationSubmitted {
 
 export interface UserDetails {
     /** The user's unique Username. It is a combination of their chosen alias plus their ID. */
-    username?: string
+    username: string
 
     /** The user unique ID. It is always an integer. */
-    id?: number
+    id: number
 
     /** The amount of Kudos this user has. Can be negative. The amount of Kudos determines the priority when requesting image generations. */
-    kudos?: number
-    kudos_details?: UserKudosDetails
-    usage?: UsageDetailsStable
-    contributions?: ContributionsDetailsStable
-
+    kudos: number
+    kudos_details: UserKudosDetails
+    usage: UsageDetailsStable
+    contributions: ContributionsDetailsStable
+    worker_count: number
+    trusted: boolean
     /** How many concurrent image generations this user may request. */
-    concurrency?: number
+    concurrency: number
 }
 
 export interface UserKudosDetails {
@@ -192,20 +193,20 @@ export interface UserKudosDetails {
     received?: number
 }
 
-export type UsageDetailsStable = UsageDetails & { megapixelsteps?: number }
+export type UsageDetailsStable = UsageDetails & { megapixelsteps: number }
 
 export interface UsageDetails {
     /** How many images this user has requested */
-    requests?: number
+    requests: number
 }
 
 export type ContributionsDetailsStable = ContributionsDetails & {
-    megapixelsteps?: number
+    megapixelsteps: number
 }
 
 export interface ContributionsDetails {
     /** How many images this user has generated */
-    fulfillments?: number
+    fulfillments: number
 }
 
 export interface ModifyUser {
