@@ -5,7 +5,7 @@ import info from "./commands/info.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
 import setpublic from "./commands/setpublic.js";
-import stableHorde from "./commands/stable-horde.js";
+import generate from "./commands/generate.js";
 import IUserDocument from "./types/IUserDocument.js";
 
 export const commands: Omit<
@@ -17,7 +17,7 @@ export const commands: Omit<
     muteNotifications.command,
     setpublic.command,
     info.command,
-    stableHorde.command,
+    generate.command,
 ];
 
 export const commandHandlers: {
@@ -32,5 +32,5 @@ export const commandHandlers: {
     "mute-notifications": muteNotifications.handler,
     setpublic: setpublic.handler,
     info: info.handler,
-    "stable-horde": stableHorde.handler,
+    generate: generate.handler,
 };
