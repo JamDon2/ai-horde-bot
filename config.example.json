@@ -37,6 +37,10 @@
         "worker": { "SERVER_ID": "ROLE_ID" },
         "trusted": { "SERVER_ID": "ROLE_ID" }
     },
+    "generate": {
+        "enabled": true,
+        "bannedWords": []
+    },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,

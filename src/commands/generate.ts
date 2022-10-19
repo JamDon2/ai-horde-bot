@@ -9,6 +9,8 @@ import { imageJoin } from "../util/imageJoin.js";
 import { Model } from "mongoose";
 
 import { hordeGenerate } from "../util/async.js";
+import config from "../config.js";
+
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
     fantasy: (p) =>
@@ -136,33 +138,8 @@ export default {
 
         const newSeed = createSeed;
 
-        const bannedWords = [
-            "child",
-            "children",
-            "kid",
-            "kids",
-            "baby",
-            "babies",
-            "infant",
-            "infants",
-            "toddler",
-            "toddlers",
-            "teen",
-            "teens",
-            "teenager",
-            "teenagers",
-            "preteen",
-            "preteens",
-            "preteenager",
-            "preteenagers",
-            "schoolgirl",
-            "schoolgirls",
-            "schoolboy",
-            "schoolboys",
-        ];
-
         if (
-            bannedWords.some((word) =>
+            config.generate.bannedWords.some((word) =>
                 (interaction.options.get("prompt")?.value as string)
                     .toLowerCase()
                     .includes(word)
