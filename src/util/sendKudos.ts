@@ -10,24 +10,23 @@ export async function sendKudosSilent(
     to: string,
     amount: number
 ) {
-    try {
-        const res = await api.post(
+    const res = await api
+        .post(
             "/kudos/transfer",
             {
                 username: to,
                 amount: amount,
             },
             { headers: { apikey: apiKey } }
-        );
-
-        return { error: null, data: res.data, status: res.status };
-    } catch (error: any) {
-        return {
+        )
+        .then((res) => ({ error: null, data: res.data, status: res.status }))
+        .catch((error) => ({
             error,
             data: error.response?.data?.message,
             status: error.response?.status,
-        };
-    }
+        }));
+
+    return res;
 }
 
 export async function sendKudos(

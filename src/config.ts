@@ -16,6 +16,10 @@ type Config = {
         worker: { [key: string]: string };
         trusted: { [key: string]: string };
     };
+    generate: {
+        enabled: true;
+        bannedWords: string[];
+    };
     escrowtime: number;
     defaultMessage: string;
     useEmojiNames: boolean;
