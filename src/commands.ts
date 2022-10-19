@@ -5,7 +5,7 @@ import info from "./commands/info.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
 import setpublic from "./commands/setpublic.js";
-import stableHorde from "./commands/stable-hoard.js";
+import stableHorde from "./commands/stable-horde.js";
 import IUserDocument from "./types/IUserDocument.js";
 
 export const commands: Omit<
