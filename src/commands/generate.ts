@@ -230,7 +230,10 @@ export default {
             ],
             embeds: [
                 {
-                    title: prompt.slice(0, 200) + "...",
+                    title:
+                        prompt.length > 200
+                            ? prompt.slice(0, 200) + "..."
+                            : prompt,
                     fields:
                         iterations === 1
                             ? [
