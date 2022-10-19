@@ -223,8 +223,6 @@ export default {
 
         const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"));
         const messageData = {
-            content: undefined,
-
             files: [
                 new AttachmentBuilder(await imageJoin(buff)).setName(
                     `generation.png`
