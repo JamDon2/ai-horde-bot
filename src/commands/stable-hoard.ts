@@ -2,13 +2,13 @@ import {
     AttachmentBuilder,
     CommandInteraction,
     SlashCommandBuilder,
-} from "discord.js"
+} from "discord.js";
 
-import IUserDocument from "../types/IUserDocument.js"
-import { imageJoin } from "../util/imageJoin.js"
-import { Model } from "mongoose"
+import IUserDocument from "../types/IUserDocument.js";
+import { imageJoin } from "../util/imageJoin.js";
+import { Model } from "mongoose";
 
-import { hordeGenerate } from "../util/async.js"
+import { hordeGenerate } from "../util/async.js";
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
     fantasy: (p) =>
@@ -25,15 +25,15 @@ const styles: Record<string, (s: string) => string> = {
         `${p} ui art icon by victo ngai, kilian eng, lois van baarle, flat`,
     butter: (p) =>
         `${p} award-winning butter sculpture at the Minnesota State Fair, made of butter, dairy creation`,
-}
+};
 
 const cleanNumberInput = (s: string | undefined, fallback: number) => {
     try {
-        return s ? Number(s) : fallback
+        return s ? Number(s) : fallback;
     } catch {
-        return fallback
+        return fallback;
     }
-}
+};
 
 export default {
     command: new SlashCommandBuilder()
@@ -116,25 +116,25 @@ export default {
     async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
         const optionsString = interaction.options.data
             .map((option) => `${option.name}: ${option.value}`)
-            .join(", ")
+            .join(", ");
         if (!interaction.replied) {
             await interaction.reply(
                 `Generating image with stablehoard with stable diffusion with options ${optionsString}. Ideal generation time is below 2 minutes`
-            )
+            );
         } else {
             await interaction.editReply(
                 `Generating image with stablehoard with stable diffusion with options ${optionsString}. Ideal generation time is below 2 minutes`
-            )
+            );
         }
 
-        const iseed = interaction.options.get("seed")?.value as string
+        const iseed = interaction.options.get("seed")?.value as string;
 
         const createSeed =
             iseed && !iseed.includes("[")
                 ? Number(iseed)
-                : Math.round(Math.random() * 10000)
+                : Math.round(Math.random() * 10000);
 
-        const newSeed = createSeed
+        const newSeed = createSeed;
 
         const bannedWords = [
             "child",
@@ -159,7 +159,7 @@ export default {
             "schoolgirls",
             "schoolboy",
             "schoolboys",
-        ]
+        ];
 
         if (
             bannedWords.some((word) =>
@@ -170,38 +170,38 @@ export default {
         ) {
             await interaction.editReply(
                 "Banned word detected. Please try again with a different prompt."
-            )
-            return
+            );
+            return;
         }
 
-        const seed = newSeed
+        const seed = newSeed;
 
         const width = cleanNumberInput(
             interaction.options.get("width")?.value as string,
             512
-        )
+        );
         const cfg = cleanNumberInput(
             interaction.options.get("cfg")?.value as string,
             7.5
-        )
+        );
         const iterations =
-            (interaction.options.get("iterations")?.value as string) ?? "1"
+            (interaction.options.get("iterations")?.value as string) ?? "1";
 
         const height = cleanNumberInput(
             interaction.options.get("height")?.value as string,
             512
-        )
+        );
 
         const steps = cleanNumberInput(
             interaction.options.get("steps")?.value as string,
             50
-        )
+        );
 
-        const prompt = interaction.options.get("prompt")?.value as string
+        const prompt = interaction.options.get("prompt")?.value as string;
 
-        console.log(width, height)
+        console.log(width, height);
 
-        const isfw = false
+        const isfw = false;
         const params = {
             prompt: prompt,
             censor_nsfw: isfw,
@@ -215,18 +215,18 @@ export default {
                 n: Number(iterations),
                 variant_amount: 1,
             },
-        }
+        };
         const data = await hordeGenerate(
             (await User.findById(interaction.user.id))?.apiKey ?? "00000000",
             params,
             interaction
-        )
+        );
 
         if (data == null) {
-            return
+            return;
         }
 
-        const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"))
+        const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"));
         const messageData = {
             content: null,
 
@@ -250,8 +250,8 @@ export default {
                     },
                 },
             ],
-        }
+        };
 
-        await interaction.editReply(messageData)
+        await interaction.editReply(messageData);
     },
-}
+};

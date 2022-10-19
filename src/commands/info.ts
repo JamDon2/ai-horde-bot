@@ -2,13 +2,13 @@ import {
     CommandInteraction,
     EmbedBuilder,
     SlashCommandBuilder,
-} from "discord.js"
-import { Model } from "mongoose"
+} from "discord.js";
+import { Model } from "mongoose";
 
-import api from "../api/client.js"
-import config from "../config.js"
-import IUserDocument from "../types/IUserDocument.js"
-import { UserDetails } from "../util/myApi.js"
+import api from "../api/client.js";
+import config from "../config.js";
+import IUserDocument from "../types/IUserDocument.js";
+import { UserDetails } from "../util/myApi.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -18,49 +18,49 @@ export default {
             option.setName("user").setDescription("The user to query.")
         ),
     async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
-        await interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ ephemeral: true });
 
-        const userArg = interaction.options.get("user")
+        const userArg = interaction.options.get("user");
 
-        const querySelf = !userArg || userArg?.user?.id == interaction.user.id
+        const querySelf = !userArg || userArg?.user?.id == interaction.user.id;
 
         const queryUser =
-            interaction.options.getUser("user") || interaction.user
+            interaction.options.getUser("user") || interaction.user;
 
-        const user = await User.findById(queryUser.id)
+        const user = await User.findById(queryUser.id);
 
         if (!querySelf && (!user || !user.public)) {
             await interaction.followUp(
                 "The target user is not logged in, or has not set their profile as public."
-            )
-            return
+            );
+            return;
         } else if (querySelf && !user) {
             await interaction.followUp(
                 "You are not logged in. Please use /login in the server."
-            )
-            return
+            );
+            return;
         }
 
-        if (!user) return
+        if (!user) return;
 
         const userDetails = (await api
             .get(`/users/${user.username.split("#")[1]}`)
             .then((res) => res.data)
             .catch((error) => {
                 if (error.response?.status === 404) {
-                    return { error: "username" }
+                    return { error: "username" };
                 }
 
-                return { error: "unknown" }
-            })) as UserDetails | { error: string }
+                return { error: "unknown" };
+            })) as UserDetails | { error: string };
 
         if ("error" in userDetails) {
             if (userDetails.error == "username") {
-                await interaction.followUp("The stored username is invalid.")
+                await interaction.followUp("The stored username is invalid.");
             } else {
-                await interaction.followUp("An unknown error occurred.")
+                await interaction.followUp("An unknown error occurred.");
             }
-            return
+            return;
         }
 
         await interaction.followUp({
@@ -100,6 +100,6 @@ export default {
                         },
                     ]),
             ],
-        })
+        });
     },
-}
+};

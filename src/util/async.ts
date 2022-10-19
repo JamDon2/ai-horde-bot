@@ -1,22 +1,22 @@
-import { CommandInteraction } from "discord.js"
-import { createStatusSheet } from "./createStatusSheet.js"
-import { Api, GenerationInput } from "./myApi.js"
+import { CommandInteraction } from "discord.js";
+import { createStatusSheet } from "./createStatusSheet.js";
+import { Api, GenerationInput } from "./myApi.js";
 export const hordeGenerate = async (
     apiKey: string,
     params: GenerationInput,
     interaction: CommandInteraction
 ) => {
-    const hordeApi = new Api(apiKey)
+    const hordeApi = new Api(apiKey);
     return await hordeApi.v2
         .postAsyncGenerate(params)
         .then((data): Promise<string[] | null> => {
             return new Promise<string[] | null>((resolve, reject) => {
                 const checkItem = async () => {
                     if (!data.id) {
-                        reject("No data id")
-                        return
+                        reject("No data id");
+                        return;
                     }
-                    const res = await hordeApi.v2.getAsyncCheck(data.id)
+                    const res = await hordeApi.v2.getAsyncCheck(data.id);
                     if (res.done) {
                         hordeApi.v2
                             .getAsyncStatus(data.id)
@@ -25,11 +25,11 @@ export const hordeGenerate = async (
                                     res.generations?.map((e) => e.img ?? "") ??
                                         []
                                 )
-                            )
-                        return
+                            );
+                        return;
                     }
 
-                    const workers = await hordeApi.v2.getWorkers()
+                    const workers = await hordeApi.v2.getWorkers();
 
                     await interaction.editReply({
                         embeds: [
@@ -60,27 +60,27 @@ export const hordeGenerate = async (
                                   ]
                                 : []),
                         ],
-                    })
+                    });
                     if (
                         interaction.createdAt.getTime() + 1000 * 60 * 10 >
                         Date.now()
                     ) {
-                        setTimeout(checkItem, 10000)
+                        setTimeout(checkItem, 10000);
                     } else {
-                        reject("Generation timed out")
+                        reject("Generation timed out");
                     }
-                }
-                setTimeout(checkItem, 10000)
-            })
+                };
+                setTimeout(checkItem, 10000);
+            });
         })
         .catch(async (e) => {
             await interaction.editReply({
                 content: "Error generating image. Please try again later.",
-            })
+            });
             await interaction.followUp({
                 content: "```" + e + "```",
                 ephemeral: true,
-            })
-            return null
-        })
-}
+            });
+            return null;
+        });
+};

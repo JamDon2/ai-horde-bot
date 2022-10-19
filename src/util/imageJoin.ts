@@ -1,4 +1,4 @@
-import { joinImages } from "join-images"
+import { joinImages } from "join-images";
 
 export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
     buffers.length == 1
@@ -34,4 +34,4 @@ export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
                   isCompressed
                       ? buff.jpeg({ quality: 80 }).toBuffer()
                       : buff.png().toBuffer()
-              )
+              );

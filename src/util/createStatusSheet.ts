@@ -1,9 +1,9 @@
-import { EmbedBuilder } from "discord.js"
+import { EmbedBuilder } from "discord.js";
 
 export const createStatusSheet = (
     title: string,
     details: {
-        [key: string]: string
+        [key: string]: string;
     }
 ) =>
     new EmbedBuilder().setTitle(title).addFields(
@@ -12,4 +12,4 @@ export const createStatusSheet = (
             value,
             inline: true,
         }))
-    )
+    );
