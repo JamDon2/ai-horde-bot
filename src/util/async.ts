@@ -77,10 +77,6 @@ export const hordeGenerate = async (
             await interaction.editReply({
                 content: "Error generating image. Please try again later.",
             });
-            await interaction.followUp({
-                content: "```" + e + "```",
-                ephemeral: true,
-            });
             return null;
         });
 };
