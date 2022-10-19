@@ -119,7 +119,7 @@ export default {
         await interaction.deferReply();
 
         const optionsString = interaction.options.data
-            .map((option) => `${option.name}: ${option.value}`)
+            .map((option) => `*${option.name}*: ${option.value}`)
             .join(", ");
 
         if (!config.generate.enabled) {
