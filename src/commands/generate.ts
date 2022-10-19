@@ -119,6 +119,15 @@ export default {
         const optionsString = interaction.options.data
             .map((option) => `${option.name}: ${option.value}`)
             .join(", ");
+
+        if (!config.generate.enabled) {
+            await interaction.reply({
+                content: `Sorry, but image generation is currently disabled. Please try again later.`,
+                ephemeral: true,
+            });
+            return;
+        }
+
         if (!interaction.replied) {
             await interaction.reply(
                 `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
