@@ -5,17 +5,19 @@ import info from "./commands/info.js";
 import login from "./commands/login.js";
 import muteNotifications from "./commands/mute-notifications.js";
 import setpublic from "./commands/setpublic.js";
+import stableHoard from "./commands/stable-hoard.js";
 import IUserDocument from "./types/IUserDocument.js";
 
 export const commands: Omit<
-    SlashCommandBuilder,
-    "addSubcommandGroup" | "addSubcommand"
+  SlashCommandBuilder,
+  "addSubcommandGroup" | "addSubcommand"
 >[] = [
     login.command,
     balance.command,
     muteNotifications.command,
     setpublic.command,
     info.command,
+    stableHoard.command,
 ];
 
 export const commandHandlers: {
@@ -30,4 +32,5 @@ export const commandHandlers: {
     "mute-notifications": muteNotifications.handler,
     setpublic: setpublic.handler,
     info: info.handler,
+    stableHoard: stableHoard.handler,
 };
