@@ -1,4 +1,4 @@
-import { MessageEmbedOptions } from 'discord.js'
+import { MessageEmbedOptions } from "discord.js"
 
 export const createStatusSheet = (
     title: string,

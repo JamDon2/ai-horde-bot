@@ -1,4 +1,4 @@
-import { joinImages } from 'join-images'
+import { joinImages } from "join-images"
 
 export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
     buffers.length == 1
@@ -6,13 +6,13 @@ export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
         : buffers.length == 4
         ? Promise.all([
               joinImages([buffers[0], buffers[1]], {
-                  direction: 'horizontal',
+                  direction: "horizontal",
               }).then((buff) => buff.png().toBuffer()),
               joinImages([buffers[2], buffers[3]], {
-                  direction: 'horizontal',
+                  direction: "horizontal",
               }).then((buff) => buff.png().toBuffer()),
           ])
-              .then((buffers) => joinImages(buffers, { direction: 'vertical' }))
+              .then((buffers) => joinImages(buffers, { direction: "vertical" }))
               .then((buff) =>
                   isCompressed
                       ? buff.jpeg({ quality: 80 }).toBuffer()
@@ -20,16 +20,16 @@ export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
               )
         : Promise.all([
               joinImages([buffers[0], buffers[1], buffers[2]], {
-                  direction: 'horizontal',
+                  direction: "horizontal",
               }).then((buff) => buff.png().toBuffer()),
               joinImages([buffers[3], buffers[4], buffers[5]], {
-                  direction: 'horizontal',
+                  direction: "horizontal",
               }).then((buff) => buff.png().toBuffer()),
               joinImages([buffers[6], buffers[7], buffers[8]], {
-                  direction: 'horizontal',
+                  direction: "horizontal",
               }).then((buff) => buff.png().toBuffer()),
           ])
-              .then((buffers) => joinImages(buffers, { direction: 'vertical' }))
+              .then((buffers) => joinImages(buffers, { direction: "vertical" }))
               .then((buff) =>
                   isCompressed
                       ? buff.jpeg({ quality: 80 }).toBuffer()

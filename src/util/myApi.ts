@@ -30,14 +30,14 @@ export type ModelGenerationInputStable = ModelPayloadRootStable & {
 export interface ModelPayloadRootStable {
     /** @example k_lms */
     sampler_name?:
-        | 'k_lms'
-        | 'k_heun'
-        | 'k_euler'
-        | 'k_euler_a'
-        | 'k_dpm_2'
-        | 'k_dpm_2_a'
-        | 'DDIM'
-        | 'PLMS'
+        | "k_lms"
+        | "k_heun"
+        | "k_euler"
+        | "k_euler_a"
+        | "k_dpm_2"
+        | "k_dpm_2_a"
+        | "DDIM"
+        | "PLMS"
 
     /**
      * Special Toggles used in the SD Webui. To be documented.
@@ -355,14 +355,14 @@ export interface RequestStatusCheckStableV1 {
     queue_position?: number
 }
 
-import axios, { AxiosRequestConfig, ResponseType } from 'axios'
+import axios, { AxiosRequestConfig, ResponseType } from "axios"
 
 export type QueryParamsType = Record<string | number, any>
 
 export interface FullRequestParams
     extends Omit<
         AxiosRequestConfig,
-        'data' | 'params' | 'url' | 'responseType'
+        "data" | "params" | "url" | "responseType"
     > {
     /** set parameter to `true` for call `securityWorker` for this request */
     secure?: boolean
@@ -380,11 +380,11 @@ export interface FullRequestParams
 
 export type RequestParams = Omit<
     FullRequestParams,
-    'body' | 'method' | 'query' | 'path'
+    "body" | "method" | "query" | "path"
 >
 
 export interface ApiConfig<SecurityDataType = unknown>
-    extends Omit<AxiosRequestConfig, 'data' | 'cancelToken'> {
+    extends Omit<AxiosRequestConfig, "data" | "cancelToken"> {
     securityWorker?: (
         securityData: SecurityDataType | null
     ) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void
@@ -393,15 +393,15 @@ export interface ApiConfig<SecurityDataType = unknown>
 }
 
 export enum ContentType {
-    Json = 'application/json',
-    FormData = 'multipart/form-data',
-    UrlEncoded = 'application/x-www-form-urlencoded',
+    Json = "application/json",
+    FormData = "multipart/form-data",
+    UrlEncoded = "application/x-www-form-urlencoded",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-    baseUrl = 'https://stablehorde.net/api/'
-    apikey = '0000000000'
-    constructor(apikey = '0000000000') {
+    baseUrl = "https://stablehorde.net/api/"
+    apikey = "0000000000"
+    constructor(apikey = "0000000000") {
         this.apikey = apikey
     }
 
@@ -410,7 +410,7 @@ export class HttpClient<SecurityDataType = unknown> {
         path,
         body,
     }: {
-        method: AxiosRequestConfig['method']
+        method: AxiosRequestConfig["method"]
         path: string
         body?: any
     }): Promise<T> =>
@@ -447,7 +447,7 @@ export class Api<
         postAsyncGenerate: (payload: GenerationInput) =>
             this.request<RequestAsync, RequestError>({
                 path: `/v2/generate/async`,
-                method: 'POST',
+                method: "POST",
                 body: payload,
             }),
 
@@ -462,7 +462,7 @@ export class Api<
         getAsyncCheck: (id: string) =>
             this.request<RequestStatusCheck, RequestError>({
                 path: `/v2/generate/check/${id}`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -481,7 +481,7 @@ export class Api<
         }) =>
             this.request<GenerationPayload, RequestError>({
                 path: `/v2/generate/pop`,
-                method: 'POST',
+                method: "POST",
                 body: payload,
             }),
 
@@ -496,7 +496,7 @@ export class Api<
         getAsyncStatus: (id: string) =>
             this.request<RequestStatusStable, RequestError>({
                 path: `/v2/generate/status/${id}`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -510,7 +510,7 @@ export class Api<
         deleteAsyncStatus: (id: string) =>
             this.request<RequestStatusStable, RequestError>({
                 path: `/v2/generate/status/${id}`,
-                method: 'DELETE',
+                method: "DELETE",
             }),
 
         /**
@@ -528,7 +528,7 @@ export class Api<
         }) =>
             this.request<GenerationSubmitted, RequestError>({
                 path: `/v2/generate/submit`,
-                method: 'POST',
+                method: "POST",
                 body: payload,
             }),
 
@@ -543,7 +543,7 @@ export class Api<
         postSyncGenerate: (payload: GenerationInput) =>
             this.request<RequestStatusStable, RequestError>({
                 path: `/v2/generate/sync`,
-                method: 'POST',
+                method: "POST",
                 body: payload,
             }),
 
@@ -558,7 +558,7 @@ export class Api<
         postTransferKudos: (payload: { username?: string; amount?: number }) =>
             this.request<KudosTransferred, RequestError>({
                 path: `/v2/kudos/transfer`,
-                method: 'POST',
+                method: "POST",
                 body: payload,
             }),
 
@@ -573,7 +573,7 @@ export class Api<
         getHordeMaintenance: () =>
             this.request<HordeMaintenanceMode, any>({
                 path: `/v2/status/maintenance`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -587,7 +587,7 @@ export class Api<
         putHordeMaintenance: (payload: { active?: boolean }) =>
             this.request<MaintenanceModeSet, RequestError>({
                 path: `/v2/status/maintenance`,
-                method: 'PUT',
+                method: "PUT",
                 body: payload,
             }),
 
@@ -602,7 +602,7 @@ export class Api<
         getHordeLoad: () =>
             this.request<HordePerformanceStable, any>({
                 path: `/v2/status/performance`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -616,7 +616,7 @@ export class Api<
         getUsers: () =>
             this.request<UserDetails, any>({
                 path: `/v2/users`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -630,7 +630,7 @@ export class Api<
         getUserSingle: (userId: string) =>
             this.request<UserDetails, RequestError>({
                 path: `/v2/users/${userId}`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -651,7 +651,7 @@ export class Api<
         ) =>
             this.request<ModifyUser, RequestError>({
                 path: `/v2/users/${userId}`,
-                method: 'PUT',
+                method: "PUT",
                 body: payload,
             }),
 
@@ -666,7 +666,7 @@ export class Api<
         getWorkers: () =>
             this.request<WorkerDetailsStable[], any>({
                 path: `/v2/workers`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -680,7 +680,7 @@ export class Api<
         getWorkerSingle: (workerId: string) =>
             this.request<WorkerDetailsStable, RequestError>({
                 path: `/v2/workers/${workerId}`,
-                method: 'GET',
+                method: "GET",
             }),
 
         /**
@@ -697,7 +697,7 @@ export class Api<
         ) =>
             this.request<ModifyWorker, RequestError>({
                 path: `/v2/workers/${workerId}`,
-                method: 'PUT',
+                method: "PUT",
                 body: payload,
             }),
     }

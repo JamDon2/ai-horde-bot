@@ -1,16 +1,16 @@
-import { Client, CommandInteraction, SlashCommandBuilder } from 'discord.js'
-import { Model } from 'mongoose'
-import balance from './commands/balance.js'
-import info from './commands/info.js'
-import login from './commands/login.js'
-import muteNotifications from './commands/mute-notifications.js'
-import setpublic from './commands/setpublic.js'
-import stableHoard from './commands/stable-hoard.js'
-import IUserDocument from './types/IUserDocument.js'
+import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js"
+import { Model } from "mongoose"
+import balance from "./commands/balance.js"
+import info from "./commands/info.js"
+import login from "./commands/login.js"
+import muteNotifications from "./commands/mute-notifications.js"
+import setpublic from "./commands/setpublic.js"
+import stableHoard from "./commands/stable-hoard.js"
+import IUserDocument from "./types/IUserDocument.js"
 
 export const commands: Omit<
     SlashCommandBuilder,
-    'addSubcommandGroup' | 'addSubcommand'
+    "addSubcommandGroup" | "addSubcommand"
 >[] = [
     login.command,
     balance.command,
@@ -29,7 +29,7 @@ export const commandHandlers: {
 } = {
     login: login.handler,
     balance: balance.handler,
-    'mute-notifications': muteNotifications.handler,
+    "mute-notifications": muteNotifications.handler,
     setpublic: setpublic.handler,
     info: info.handler,
     stableHoard: stableHoard.handler,

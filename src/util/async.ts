@@ -1,6 +1,6 @@
-import { CommandInteraction } from 'discord.js'
-import { createStatusSheet } from './createStatusSheet.js'
-import { Api } from './myApi.js'
+import { CommandInteraction } from "discord.js"
+import { createStatusSheet } from "./createStatusSheet.js"
+import { Api } from "./myApi.js"
 export const hordeGenerate = async (
     apiKey: string,
     params: any,
@@ -13,7 +13,7 @@ export const hordeGenerate = async (
             return new Promise<string[] | null>((resolve, reject) => {
                 const checkItem = async () => {
                     if (!data.id) {
-                        reject('No data id')
+                        reject("No data id")
                         return
                     }
                     const res = await hordeApi.v2.getAsyncCheck(data.id)
@@ -22,7 +22,7 @@ export const hordeGenerate = async (
                             .getAsyncStatus(data.id)
                             .then((res) =>
                                 resolve(
-                                    res.generations?.map((e) => e.img ?? '') ??
+                                    res.generations?.map((e) => e.img ?? "") ??
                                         []
                                 )
                             )
@@ -33,10 +33,10 @@ export const hordeGenerate = async (
 
                     await interaction.editReply({
                         embeds: [
-                            createStatusSheet('Generation in progress', {
-                                'Status (🟢, 🟡, 🔴)': `${res.finished?.toString()}/${res.processing?.toString()}/${res.waiting?.toString()}`,
-                                'Queue Position':
-                                    res.queue_position?.toString() ?? '',
+                            createStatusSheet("Generation in progress", {
+                                "Status (🟢, 🟡, 🔴)": `${res.finished?.toString()}/${res.processing?.toString()}/${res.waiting?.toString()}`,
+                                "Queue Position":
+                                    res.queue_position?.toString() ?? "",
                                 Elapsed: `<t:${(
                                     interaction.createdAt.getTime() / 1000
                                 ).toFixed(0)}:R>`,
@@ -44,7 +44,7 @@ export const hordeGenerate = async (
                                     new Date().getTime() / 1000 +
                                     (res.wait_time ?? 0)
                                 ).toFixed(0)}:R>`,
-                                'Active Workers': workers
+                                "Active Workers": workers
                                     .filter((f) => !f.paused)
                                     .length.toFixed(0),
                             }),
@@ -53,9 +53,9 @@ export const hordeGenerate = async (
                             Date.now()
                                 ? [
                                       {
-                                          title: 'StableHorde Currently Under Load',
+                                          title: "StableHorde Currently Under Load",
                                           description:
-                                              'StableHorde is currently under load, Stablehorde is a community driven stable diffusion botnet. You can help by running a worker. You can find more information [here](https://stablehorde.net).',
+                                              "StableHorde is currently under load, Stablehorde is a community driven stable diffusion botnet. You can help by running a worker. You can find more information [here](https://stablehorde.net).",
                                       },
                                   ]
                                 : []),
@@ -67,7 +67,7 @@ export const hordeGenerate = async (
                     ) {
                         setTimeout(checkItem, 10000)
                     } else {
-                        reject('Generation timed out')
+                        reject("Generation timed out")
                     }
                 }
                 setTimeout(checkItem, 10000)
@@ -75,10 +75,10 @@ export const hordeGenerate = async (
         })
         .catch(async (e) => {
             await interaction.editReply({
-                content: 'Error generating image. Please try again later.',
+                content: "Error generating image. Please try again later.",
             })
             await interaction.followUp({
-                content: '```' + e + '```',
+                content: "```" + e + "```",
                 ephemeral: true,
             })
             return null
