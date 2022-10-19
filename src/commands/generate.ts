@@ -248,6 +248,6 @@ export default {
             ],
         };
 
-        await interaction.followUp(messageData);
+        await interaction.editReply(messageData);
     },
 };
