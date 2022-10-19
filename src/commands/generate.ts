@@ -178,8 +178,6 @@ export default {
 
         const prompt = interaction.options.get("prompt")?.value as string;
 
-        console.log(width, height);
-
         const isfw = false;
         const params = {
             prompt: prompt,
