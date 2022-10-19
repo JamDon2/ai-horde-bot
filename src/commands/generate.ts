@@ -131,7 +131,7 @@ export default {
         }
 
         await interaction.followUp(
-            `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
+            `Generating image on the horde with options ${optionsString}. This may take a while.`
         );
 
         const iseed = interaction.options.get("seed")?.value as string;
