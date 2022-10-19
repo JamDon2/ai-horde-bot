@@ -37,7 +37,7 @@ const cleanNumberInput = (s: string | undefined, fallback: number) => {
 
 export default {
     command: new SlashCommandBuilder()
-        .setName("stablehorde")
+        .setName("generate")
         .setDescription("use stable hoard")
         .addStringOption((option) =>
             option
