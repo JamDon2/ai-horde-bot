@@ -40,17 +40,17 @@ const cleanNumberInput = (s: string | undefined, fallback: number) => {
 export default {
     command: new SlashCommandBuilder()
         .setName("generate")
-        .setDescription("use stable hoard")
+        .setDescription("Generate an image with Stable Diffusion.")
         .addStringOption((option) =>
             option
                 .setName("prompt")
-                .setDescription("What to ask stable diffusion")
+                .setDescription("Your prompt")
                 .setRequired(true)
         )
         .addStringOption((option) =>
             option
                 .setName("style")
-                .setDescription("What style to use")
+                .setDescription("The style to use")
                 .setRequired(true)
                 .addChoices(
                     ...Object.keys(styles).map((style) => ({
@@ -62,13 +62,13 @@ export default {
         .addStringOption((option) =>
             option
                 .setName("seed")
-                .setDescription("The seed to use")
+                .setDescription("The image seed")
                 .setRequired(false)
         )
         .addStringOption((option) =>
             option
                 .setName("steps")
-                .setDescription("The number of steps to use")
+                .setDescription("The number of steps to generate")
                 .setRequired(false)
         )
         .addStringOption((option) =>
@@ -98,7 +98,7 @@ export default {
         .addStringOption((option) =>
             option
                 .setName("iterations")
-                .setDescription("The number of images to generate(colab only)")
+                .setDescription("The number of images to generate")
                 .setRequired(false)
                 .addChoices(
                     ...[
@@ -121,11 +121,11 @@ export default {
             .join(", ");
         if (!interaction.replied) {
             await interaction.reply(
-                `Generating image with stablehoard with stable diffusion with options ${optionsString}. Ideal generation time is below 2 minutes`
+                `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
             );
         } else {
             await interaction.editReply(
-                `Generating image with stablehoard with stable diffusion with options ${optionsString}. Ideal generation time is below 2 minutes`
+                `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
             );
         }
 
