@@ -9,8 +9,8 @@ import stableHoard from "./commands/stable-hoard.js";
 import IUserDocument from "./types/IUserDocument.js";
 
 export const commands: Omit<
-  SlashCommandBuilder,
-  "addSubcommandGroup" | "addSubcommand"
+    SlashCommandBuilder,
+    "addSubcommandGroup" | "addSubcommand"
 >[] = [
     login.command,
     balance.command,
