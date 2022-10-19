@@ -16,7 +16,19 @@ export default async function (
                         reject("No data id");
                         return;
                     }
-                    const res = await hordeApi.v2.getAsyncCheck(data.id);
+
+                    const res = await hordeApi.v2
+                        .getAsyncCheck(data.id)
+                        .catch(() => {
+                            reject("Error checking status");
+                            return;
+                        });
+
+                    if (!res) {
+                        reject("No response");
+                        return;
+                    }
+
                     if (res.done) {
                         hordeApi.v2
                             .getAsyncStatus(data.id)
