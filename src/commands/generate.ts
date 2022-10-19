@@ -181,7 +181,18 @@ export default {
             50
         );
 
-        const prompt = interaction.options.get("prompt", true).value as string;
+        const style = interaction.options.get("style", true).value as string;
+
+        if (!(style in styles)) {
+            await interaction.followUp(
+                "Invalid style. Please try again with a different style."
+            );
+            return;
+        }
+
+        const prompt = styles[style](
+            interaction.options.get("prompt", true).value as string
+        );
 
         const isfw = false;
 
