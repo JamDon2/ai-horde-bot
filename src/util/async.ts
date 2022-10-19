@@ -53,9 +53,9 @@ export const hordeGenerate = async (
                             Date.now()
                                 ? [
                                       {
-                                          title: "StableHorde Currently Under Load",
+                                          title: "Stable Horde Currently Under Load",
                                           description:
-                                              "StableHorde is currently under load, Stablehorde is a community driven stable diffusion botnet. You can help by running a worker. You can find more information [here](https://stablehorde.net).",
+                                              "Stable Horde is currently under load, Stablehorde is a community driven stable diffusion cluster. You can help by running a worker. You can find more information [here](https://stablehorde.net).",
                                       },
                                   ]
                                 : []),
