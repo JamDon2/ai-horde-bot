@@ -116,27 +116,23 @@ export default {
         ),
 
     async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
+        await interaction.deferReply();
+
         const optionsString = interaction.options.data
             .map((option) => `${option.name}: ${option.value}`)
             .join(", ");
 
         if (!config.generate.enabled) {
-            await interaction.reply({
+            await interaction.followUp({
                 content: `Sorry, but image generation is currently disabled. Please try again later.`,
                 ephemeral: true,
             });
             return;
         }
 
-        if (!interaction.replied) {
-            await interaction.reply(
-                `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
-            );
-        } else {
-            await interaction.editReply(
-                `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
-            );
-        }
+        await interaction.followUp(
+            `Generating image on the horde with options ${optionsString}. Ideal generation time is below 2 minutes`
+        );
 
         const iseed = interaction.options.get("seed")?.value as string;
 
@@ -154,7 +150,7 @@ export default {
                     .includes(word)
             )
         ) {
-            await interaction.editReply(
+            await interaction.followUp(
                 "Banned word detected. Please try again with a different prompt."
             );
             return;
@@ -215,7 +211,7 @@ export default {
 
         const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"));
         const messageData = {
-            content: null,
+            content: undefined,
 
             files: [
                 new AttachmentBuilder(await imageJoin(buff)).setName(
@@ -239,6 +235,6 @@ export default {
             ],
         };
 
-        await interaction.editReply(messageData);
+        await interaction.followUp(messageData);
     },
 };
