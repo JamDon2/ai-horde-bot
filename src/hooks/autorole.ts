@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
 import api from "../api/client.js";
-import { UserDetails } from "../util/myApi.js";
+import { UserDetails } from "../util/hordeApi.js";
 
 export default async function autorole(
     interaction: CommandInteraction,

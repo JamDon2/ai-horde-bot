@@ -1,6 +1,6 @@
 import { CommandInteraction } from "discord.js";
 import { createStatusSheet } from "./createStatusSheet.js";
-import { Api, GenerationInput } from "./myApi.js";
+import { Api, GenerationInput } from "./hordeApi.js";
 export const hordeGenerate = async (
     apiKey: string,
     params: GenerationInput,

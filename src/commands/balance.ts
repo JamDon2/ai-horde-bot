@@ -23,20 +23,12 @@ export default {
 
         const user = await User.findById(queryUser.id);
 
-        if (!querySelf && (!user || !user.public)) {
+        if (!user || (!user.public && !querySelf)) {
             await interaction.followUp(
-                "The target user is not logged in, or has not set their profile as public."
+                querySelf
+                    ? "You are not logged in. Please use /login in the server."
+                    : "The target user is not logged in, or has not set their profile as public."
             );
-            return;
-        } else if (querySelf && !user) {
-            await interaction.followUp(
-                "You are not logged in. Please use /login in the server."
-            );
-            return;
-        }
-
-        if (!user) {
-            await interaction.followUp("Error finding user");
             return;
         }
 
