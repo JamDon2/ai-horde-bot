@@ -179,6 +179,7 @@ export default {
         const prompt = interaction.options.get("prompt")?.value as string;
 
         const isfw = false;
+
         const params = {
             prompt: prompt,
             censor_nsfw: isfw,
