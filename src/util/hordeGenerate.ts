@@ -1,11 +1,11 @@
 import { CommandInteraction } from "discord.js";
 import { createStatusSheet } from "./createStatusSheet.js";
 import { Api, GenerationInput } from "./hordeApi.js";
-export const hordeGenerate = async (
+export default async function (
     apiKey: string,
     params: GenerationInput,
     interaction: CommandInteraction
-) => {
+) {
     const hordeApi = new Api(apiKey);
     return await hordeApi.v2
         .postAsyncGenerate(params)
@@ -73,10 +73,10 @@ export const hordeGenerate = async (
                 setTimeout(checkItem, 10000);
             });
         })
-        .catch(async (e) => {
+        .catch(async () => {
             await interaction.editReply({
                 content: "Error generating image. Please try again later.",
             });
             return null;
         });
-};
+}

@@ -8,7 +8,7 @@ import IUserDocument from "../types/IUserDocument.js";
 import { imageJoin } from "../util/imageJoin.js";
 import { Model } from "mongoose";
 
-import { hordeGenerate } from "../util/async.js";
+import hordeGenerate from "../util/hordeGenerate.js";
 import config from "../config.js";
 
 const styles: Record<string, (s: string) => string> = {
