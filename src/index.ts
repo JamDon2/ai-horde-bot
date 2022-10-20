@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, GatewayIntentBits, Partials, TextChannel } from "discord.js";
 
 import "dotenv/config";
 import humanizeDuration from "humanize-duration";
@@ -17,6 +17,30 @@ const client = new Client({
         GatewayIntentBits.GuildMessageReactions,
     ],
     partials: [Partials.Reaction, Partials.Message],
+});
+
+process.on("SIGTERM", async () => {
+    if (config.status_notifications.enabled) {
+        const channel = (await client.channels.fetch(
+            config.status_notifications.channel
+        )) as TextChannel;
+
+        if (channel)
+            await channel.send(config.status_notifications.messages.down);
+    }
+
+    process.exit();
+});
+
+client.on("ready", async () => {
+    if (config.status_notifications.enabled) {
+        const channel = (await client.channels.fetch(
+            config.status_notifications.channel
+        )) as TextChannel;
+
+        if (channel)
+            await channel.send(config.status_notifications.messages.up);
+    }
 });
 
 client.on("interactionCreate", async (interaction) => {

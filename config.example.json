@@ -42,6 +42,14 @@
         "bannedWords": [],
         "nsfw": false
     },
+    "status_notifications": {
+        "enabled": true,
+        "channel": "CHANNEL_ID",
+        "messages": {
+            "up": "Stable Horde Bot is now online!",
+            "down": "Stable Horde Bot is offline for maintenance."
+        }
+    },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
