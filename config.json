@@ -37,8 +37,38 @@
         "worker": { "781145214752129095": "1024253788187533372" },
         "trusted": { "781145214752129095": "1029338683763064842" }
     },
+    "generate": {
+        "enabled": true,
+        "bannedWords": [
+            "child",
+            "children",
+            "kid",
+            "kids",
+            "baby",
+            "babies",
+            "infant",
+            "infants",
+            "toddler",
+            "toddlers",
+            "teen",
+            "teens",
+            "teenager",
+            "teenagers",
+            "preteen",
+            "preteens",
+            "preteenager",
+            "preteenagers",
+            "schoolgirl",
+            "schoolgirls",
+            "schoolboy",
+            "schoolboys"
+        ],
+        "nsfw": false
+    },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
     "clientId": "1019572037360025650"
 }
+
+
