@@ -24,7 +24,10 @@ export default {
                 .setName("threshold")
                 .setDescription("The threshold to mute notifications at.")
         ),
-    async handler(interaction: CommandInteraction, User: Model<IUserDocument>) {
+    async commandHandler(
+        interaction: CommandInteraction,
+        User: Model<IUserDocument>
+    ) {
         await interaction.deferReply({ ephemeral: true });
 
         const user = await User.findById(interaction.user.id);
