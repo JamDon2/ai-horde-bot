@@ -87,10 +87,8 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         "You are not logged in. Please use /login in the server."
                     )
                 )
-                .catch((err) => {
-                    console.error(err);
-                });
-            await reaction.users.remove(user);
+                .catch(console.error);
+            await reaction.users.remove(user).catch(console.error);
         } else if (!recipient) {
             await new KudosEscrow({
                 from: user.id,
@@ -109,9 +107,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         )} to claim your kudos.`
                     )
                 )
-                .catch((err) => {
-                    console.error(err);
-                });
+                .catch(console.error);
 
             user.createDM()
                 .then((dm) =>
@@ -124,9 +120,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                         )} they will receive the reward.`
                     )
                 )
-                .catch((err) => {
-                    console.error(err);
-                });
+                .catch(console.error);
         }
 
         return;
