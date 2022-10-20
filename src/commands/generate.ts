@@ -194,12 +194,10 @@ export default {
             interaction.options.get("prompt", true).value as string
         );
 
-        const isfw = false;
-
         const params = {
             prompt: prompt,
-            censor_nsfw: isfw,
-            nsfw: !isfw,
+            censor_nsfw: !config.generate.nsfw,
+            nsfw: config.generate.nsfw,
             params: {
                 seed: iterations === 1 ? `${seed}` : undefined,
                 width: width,
