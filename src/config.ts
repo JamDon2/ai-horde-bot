@@ -19,6 +19,7 @@ type Config = {
     generate: {
         enabled: true;
         bannedWords: string[];
+        nsfw: boolean;
     };
     escrowtime: number;
     defaultMessage: string;

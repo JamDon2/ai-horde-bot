@@ -39,7 +39,8 @@
     },
     "generate": {
         "enabled": true,
-        "bannedWords": []
+        "bannedWords": [],
+        "nsfw": false
     },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
