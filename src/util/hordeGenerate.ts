@@ -30,6 +30,7 @@ export default async function (
                     }
 
                     if (res.done) {
+                        clearInterval(checkInterval);
                         hordeApi.v2
                             .getAsyncStatus(data.id)
                             .then((res) =>
