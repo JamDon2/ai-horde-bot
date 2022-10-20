@@ -49,13 +49,18 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     user = user.partial ? await user.fetch() : user;
 
-    if (message.author.id === user.id) {
+    const recipientID = message.interaction
+        ? message.interaction.user.id
+        : message.author.id;
+
+    if (recipientID === user.id) {
         await reaction.users.remove(user);
         return;
     }
 
     const sender = await User.findById(user.id);
-    const recipient = await User.findById(message.author.id);
+
+    const recipient = await User.findById(recipientID);
 
     if (!sender || !recipient) {
         if (!sender) {
