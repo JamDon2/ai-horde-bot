@@ -23,14 +23,14 @@ client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
         if (!interactionHandlers[interaction.commandName]) return;
 
-        const command = interactionHandlers[interaction.commandName].command;
+        const hook = interactionHandlers[interaction.commandName].command;
 
-        if (!command) return;
+        if (!hook) return;
 
         await preCommand(interaction, User, client);
 
         await Promise.all([
-            command(interaction, User, client),
+            hook(interaction, User, client),
             inCommand(interaction, User, client),
         ]);
 
