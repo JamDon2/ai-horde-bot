@@ -8,6 +8,7 @@ import { Model } from "mongoose";
 import api from "../api/client.js";
 import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
+import { UserDetails } from "../util/hordeApi.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -51,7 +52,7 @@ export default {
                 }
 
                 return { error: "unknown" };
-            })) as any | { error: string };
+            })) as UserDetails | { error: string };
 
         if ("error" in userDetails) {
             if (userDetails.error == "username") {

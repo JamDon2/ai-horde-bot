@@ -23,20 +23,17 @@ export default {
 
         const user = await User.findById(queryUser.id);
 
-        if (!querySelf && (!user || !user.public)) {
+        if (!user || (!user.public && !querySelf)) {
             await interaction.followUp(
-                "The target user is not logged in, or has not set their profile as public."
-            );
-            return;
-        } else if (querySelf && !user) {
-            await interaction.followUp(
-                "You are not logged in. Please use /login in the server."
+                querySelf
+                    ? "You are not logged in. Please use /login in the server."
+                    : "The target user is not logged in, or has not set their profile as public."
             );
             return;
         }
 
         const userDetails = (await api
-            .get(`/users/${user!.username.split("#")[1]}`)
+            .get(`/users/${user.username.split("#")[1]}`)
             .then((res) => res.data)
             .catch((error) => {
                 if (error.response?.status === 404) {
