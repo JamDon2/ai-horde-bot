@@ -12,7 +12,6 @@ import muteNotifications from "./interactions/mute-notifications.js";
 import setpublic from "./interactions/setpublic.js";
 import generate from "./interactions/generate.js";
 import IUserDocument from "./types/IUserDocument.js";
-import test from "./interactions/test.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -24,7 +23,6 @@ export const commands: Omit<
     setpublic.command,
     info.command,
     generate.command,
-    test.command,
 ];
 
 type InteractionHandlers = {
