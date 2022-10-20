@@ -15,7 +15,7 @@ export default {
                 .setDescription("Your API key.")
                 .setRequired(true)
         ),
-    async handler(
+    async commandHandler(
         interaction: CommandInteraction,
         User: Model<IUserDocument>,
         client: Client

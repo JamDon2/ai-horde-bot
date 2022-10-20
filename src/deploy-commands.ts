@@ -1,7 +1,7 @@
 import { REST, Routes } from "discord.js";
 import "dotenv/config";
 
-import { commands } from "./commands.js";
+import { commands } from "./interactions.js";
 
 import config from "./config.js";
 

@@ -4,7 +4,7 @@ import "dotenv/config";
 import humanizeDuration from "humanize-duration";
 
 import config from "./config.js";
-import { commandHandlers } from "./commands.js";
+import { interactionHandlers } from "./interactions.js";
 import User from "./models/User.js";
 import KudosEscrow from "./models/KudosEscrow.js";
 import { sendKudos } from "./util/sendKudos.js";
@@ -20,18 +20,22 @@ const client = new Client({
 });
 
 client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isCommand()) return;
+    if (interaction.isCommand()) {
+        if (!interactionHandlers[interaction.commandName]) return;
 
-    if (!commandHandlers[interaction.commandName]) return;
+        const command = interactionHandlers[interaction.commandName].command;
 
-    await preCommand(interaction, User, client);
+        if (!command) return;
 
-    await Promise.all([
-        commandHandlers[interaction.commandName](interaction, User, client),
-        inCommand(interaction, User, client),
-    ]);
+        await preCommand(interaction, User, client);
 
-    await postCommand(interaction, User, client);
+        await Promise.all([
+            command(interaction, User, client),
+            inCommand(interaction, User, client),
+        ]);
+
+        await postCommand(interaction, User, client);
+    }
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
