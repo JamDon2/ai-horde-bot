@@ -49,8 +49,11 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     user = user.partial ? await user.fetch() : user;
 
-    const author = message.interaction
-        ? message.interaction.user
+    const isBotInteraction =
+        message.author.id === client?.user?.id && Boolean(message.interaction);
+
+    const author = isBotInteraction
+        ? message.interaction!.user
         : message.author;
 
     if (author.id === user.id) {
