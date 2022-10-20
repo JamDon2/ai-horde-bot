@@ -49,18 +49,21 @@ client.on("messageReactionAdd", async (reaction, user) => {
 
     user = user.partial ? await user.fetch() : user;
 
-    const recipientID = message.interaction
-        ? message.interaction.user.id
-        : message.author.id;
+    const isBotInteraction =
+        message.author.id === client?.user?.id && Boolean(message.interaction);
 
-    if (recipientID === user.id) {
+    const author = isBotInteraction
+        ? message.interaction!.user
+        : message.author;
+
+    if (author.id === user.id) {
         await reaction.users.remove(user);
         return;
     }
 
     const sender = await User.findById(user.id);
 
-    const recipient = await User.findById(recipientID);
+    const recipient = await User.findById(author.id);
 
     if (!sender || !recipient) {
         if (!sender) {
@@ -77,12 +80,12 @@ client.on("messageReactionAdd", async (reaction, user) => {
         } else if (!recipient) {
             await new KudosEscrow({
                 from: user.id,
-                to: message.author.id,
+                to: author.id,
                 emoji: emojiIdentifier,
                 messageURL: message.url,
             }).save();
 
-            message.author
+            author
                 .createDM()
                 .then((dm) =>
                     dm.send(
@@ -100,7 +103,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 .then((dm) =>
                     dm.send(
                         `<@${
-                            message.author.id
+                            author.id
                         }> is not logged in. If they log in within ${humanizeDuration(
                             config.escrowtime * 1000,
                             { largest: 2 }
@@ -135,7 +138,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
         User,
         { id: user.id, apiKey: sender.apiKey, sendDM: sendEnabled },
         {
-            id: message.author.id,
+            id: author.id,
             username: recipient.username,
             sendDM: receiveEnabled,
         },
