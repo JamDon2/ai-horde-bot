@@ -36,6 +36,16 @@ client.on("interactionCreate", async (interaction) => {
 
         await postCommand(interaction, User, client);
     }
+
+    if (interaction.isAutocomplete()) {
+        if (!interactionHandlers[interaction.commandName]) return;
+
+        const hook = interactionHandlers[interaction.commandName].autocomplete;
+
+        if (!hook) return;
+
+        await hook(interaction, User, client);
+    }
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {

@@ -1,4 +1,9 @@
-import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+    AutocompleteInteraction,
+    Client,
+    CommandInteraction,
+    SlashCommandBuilder,
+} from "discord.js";
 import { Model } from "mongoose";
 import balance from "./interactions/balance.js";
 import info from "./interactions/info.js";
@@ -30,7 +35,7 @@ type InteractionHandlers = {
     ) => Promise<void>;
 
     autocomplete?: (
-        interaction: CommandInteraction,
+        interaction: AutocompleteInteraction,
         User: Model<IUserDocument>,
         client: Client
     ) => Promise<void>;
