@@ -39,7 +39,9 @@ client.on("ready", async () => {
         )) as TextChannel;
 
         if (channel)
-            await channel.send(config.status_notifications.messages.up);
+            await channel
+                .send(config.status_notifications.messages.up)
+                .catch(console.error);
     }
 });
 
@@ -107,9 +109,11 @@ client.on("messageReactionAdd", async (reaction, user) => {
         if (!sender) {
             user.createDM()
                 .then((dm) =>
-                    dm.send(
-                        "You are not logged in. Please use /login in the server."
-                    )
+                    dm
+                        .send(
+                            "You are not logged in. Please use /login in the server."
+                        )
+                        .catch(console.error)
                 )
                 .catch(console.error);
             await reaction.users.remove(user).catch(console.error);
@@ -124,25 +128,29 @@ client.on("messageReactionAdd", async (reaction, user) => {
             author
                 .createDM()
                 .then((dm) =>
-                    dm.send(
-                        `Someone has tried to give you kudos, but you are not logged in. Please use /login in the server within ${humanizeDuration(
-                            config.escrowtime * 1000,
-                            { largest: 2 }
-                        )} to claim your kudos.`
-                    )
+                    dm
+                        .send(
+                            `Someone has tried to give you kudos, but you are not logged in. Please use /login in the server within ${humanizeDuration(
+                                config.escrowtime * 1000,
+                                { largest: 2 }
+                            )} to claim your kudos.`
+                        )
+                        .catch(console.error)
                 )
                 .catch(console.error);
 
             user.createDM()
                 .then((dm) =>
-                    dm.send(
-                        `<@${
-                            author.id
-                        }> is not logged in. If they log in within ${humanizeDuration(
-                            config.escrowtime * 1000,
-                            { largest: 2 }
-                        )} they will receive the reward.`
-                    )
+                    dm
+                        .send(
+                            `<@${
+                                author.id
+                            }> is not logged in. If they log in within ${humanizeDuration(
+                                config.escrowtime * 1000,
+                                { largest: 2 }
+                            )} they will receive the reward.`
+                        )
+                        .catch(console.error)
                 )
                 .catch(console.error);
         }

@@ -55,7 +55,10 @@ export async function sendKudos(
 
             sender
                 .createDM()
-                .then((dm) => dm.send("You don't have enough kudos."));
+                .then((dm) =>
+                    dm.send("You don't have enough kudos.").catch(console.error)
+                )
+                .catch(console.error);
         }
 
         return;
@@ -81,20 +84,30 @@ export async function sendKudos(
         sender
             .createDM()
             .then((dm) =>
-                dm.send(
-                    `You have given <@${
-                        to.id
-                    }> ${emojiDetails.value.toLocaleString("en-US")} kudos.`
-                )
-            );
+                dm
+                    .send(
+                        `You have given <@${
+                            to.id
+                        }> ${emojiDetails.value.toLocaleString("en-US")} kudos.`
+                    )
+                    .catch(console.error)
+            )
+            .catch(console.error);
     }
 
     if (to.sendDM) {
-        recipient.createDM().then((dm) =>
-            dm.send({
-                embeds: [new EmbedBuilder().setDescription(receiveMessage)],
-            })
-        );
+        recipient
+            .createDM()
+            .then((dm) =>
+                dm
+                    .send({
+                        embeds: [
+                            new EmbedBuilder().setDescription(receiveMessage),
+                        ],
+                    })
+                    .catch(console.error)
+            )
+            .catch(console.error);
     }
 
     await User.findByIdAndUpdate(from.id, {
