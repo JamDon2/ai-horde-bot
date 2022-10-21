@@ -1,18 +1,26 @@
 # AI Horde Bot
 
-This is a utility bot for the [Stable Horde](https://stablehorde.net)
+This is a utility bot for the [Stable Horde](https://stablehorde.net). It provides functionlity for using and interacting with other Stable Horde users
+
+It is free software so you can not only add it to your owns server to interact with the stable horde, but also host it on your own to interact on your own terms.
 
 # Using 
 
-This discord bot provides many functionalities aorund it
-
-## Generating Images
+This discord bot provides many functionalities around it, but the most significant ones are generating images, and gifting kudos to other stable horde users.
 
 To use this bot on your own server, simply [invite it](https://discord.com/oauth2/authorize?client_id=1019572037360025650&permissions=8192&scope=bot) or use the discord link from its description
 
+## Login
+
+Any user can login to the stable horde using `/login` and their individual API key received from [registering](https://stablehorde.net/register). This will provide more priority than an anonymous account when using `/generate`, and it also allow them to receive kudos from other discord users using kudos emojis, or from adding their own worker to the horde. [Read how Kudos are working](https://dbzer0.com/blog/the-kudos-based-economy-for-the-koboldai-horde/)
+
+It will also allow a user to retrieve their own or (optionally) another user stable horde information, such as kudos balance and usage/contributions.
+
+## Generating Images
+
 Any user in your server should be able to generate images using the `/generate` command however this command will be run anonymous by default, giving the lowest priority.
 
-Any user can login to the stable horde using `/login` and their individual API key received from [registering](https://stablehorde.net/register). This will provide more priority than an anonymous account, but it also allow them to receive kudos from other discord users using kudos emojis, or from adding their own worker to the horde. [Read how Kudos are working](https://dbzer0.com/blog/the-kudos-based-economy-for-the-koboldai-horde/)
+To get more priority, users should `/login` with their own API key.
 
 ## Emoji Kudos
 If you want your users to be able to gift kudos to each other, you will need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
@@ -24,6 +32,8 @@ If the reactor doesn't have enough kudos, the emoji will also be removed.
 Use this functionality to promote good behaviour with something that has a bit more utility than random emojis
 
 There's more command you can run to view information about users and this bot is in active development. 
+
+# Community 
 
 [Join our server](https://discord.gg/3DxrhksKzn) and let us know what you think
 
