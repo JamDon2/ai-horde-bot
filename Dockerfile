@@ -21,4 +21,4 @@ COPY --from=builder /usr/dist ./dist
 
 RUN npm install --omit=dev
 
-CMD ["npm", "start"]
+CMD ["node", "dist/"]

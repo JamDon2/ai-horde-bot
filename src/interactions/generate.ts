@@ -213,7 +213,7 @@ export default {
         };
 
         const data = await hordeGenerate(
-            (await User.findById(interaction.user.id))?.apiKey ?? "00000000",
+            (await User.findById(interaction.user.id))?.apiKey ?? "0000000000",
             params,
             interaction
         );

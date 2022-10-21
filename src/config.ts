@@ -21,6 +21,14 @@ type Config = {
         bannedWords: string[];
         nsfw: boolean;
     };
+    status_notifications: {
+        enabled: true;
+        channel: string;
+        messages: {
+            up: string;
+            down: string;
+        };
+    };
     escrowtime: number;
     defaultMessage: string;
     useEmojiNames: boolean;

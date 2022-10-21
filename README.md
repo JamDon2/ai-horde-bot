@@ -40,6 +40,12 @@ The `config.json` file contains the following properties:
     -   `enabled`: Whether the module is enabled.
     -   `bannedWords`: An array of words that are not allowed in the prompt.
     -   `nsfw`: Whether to enable the `nsfw` flag, and disable `censor_nsfw`
+-   `status_notifications`: This contains the status-notifications module configuration.
+    -   `enabled`: Whether the module is enabled.
+    -   `channel`: The channel ID to send the notifications to.
+    -   `messages`: The message to send. The following variables are available:
+        -   `up`: The message to send when the bot comes online.
+        -   `down`: The message to send when the bot goes offline.
 -   `escrowtime`: Time in seconds to remember a reward for, if the recipient isn't logged in
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.
