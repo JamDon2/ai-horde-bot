@@ -85,10 +85,13 @@ export default async function (
                 const checkInterval = setInterval(checkItem, 10000);
             });
         })
-        .catch(async () => {
+        .catch(async (err) => {
             await interaction.editReply({
                 content: "Error generating image. Please try again later.",
             });
-            return null;
+
+            console.error(err);
+
+            return;
         });
 }
