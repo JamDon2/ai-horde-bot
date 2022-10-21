@@ -6,15 +6,23 @@ It will also provide some commands to get information about Stable Horde account
 
 ## Using
 
-To use this bot on your own server, simply [invite it](https://discord.com/oauth2/authorize?client_id=1019572037360025650&permissions=8192&scope=bot)
+To use this bot on your own server, simply [invite it](https://discord.com/oauth2/authorize?client_id=1019572037360025650&permissions=8192&scope=bot) or use the discord link from its description
 
-You will also need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
+Any user in your server should be able to generate images using the `/generate` command however this command will be run anonymous by default, giving the lowest priority.
 
-Any time that emoji is reacted with, it will transfer the same amount of kudos. For this to work, both the reactor and the reactee, needs to have logged in to the Kudos bot with `/login` command. If either of them has not, the emoji will be removed and whoever is missing it, will receive a private message from the bot to log in.
+Any user can login to the stable horde using `/login` and their individual API key received from [registering](https://stablehorde.net/register). This will provide more priority than an anonymous account, but it also allow them to receive kudos from other discord users using kudos emojis, or from adding their own worker to the horde. [Read how Kudos are working](https://dbzer0.com/blog/the-kudos-based-economy-for-the-koboldai-horde/)
+
+If you want your users to be able to gift kudos to each other, you will need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
+
+Any time that emoji is reacted with, it will transfer the stated amount of kudos. For this to work, both the reactor and the reactee, needs to have logged in to the Kudos bot with `/login` command. If either of them has not, the emoji will be removed and whoever is missing it, will receive a private message from the bot to log in.
 
 If the reactor doesn't have enough kudos, the emoji will also be removed.
 
 Use this functionality to promote good behaviour with something that has a bit more utility than random emojis
+
+There's more command you can run to view information about users and this bot is in active development. 
+
+[Join our server](https://discord.gg/3DxrhksKzn) and let us know what you think
 
 ## Configuration
 
