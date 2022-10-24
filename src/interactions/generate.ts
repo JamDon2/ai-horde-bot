@@ -12,6 +12,7 @@ import hordeGenerate from "../util/hordeGenerate.js";
 import config from "../config.js";
 
 const styles: Record<string, (s: string) => string> = {
+    doge: (p) => `An adorable canine dog ${}`,
     raw: (p) => p,
     fantasy: (p) =>
         `${p} fantasy artwork epic detailed and intricate digital painting trending on artstation by wlop octane render`,
