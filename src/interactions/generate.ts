@@ -13,6 +13,7 @@ import config from "../config.js";
 
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
+    doge: (p) => `An adorable canine dog ${p}`,
     fantasy: (p) =>
         `${p} fantasy artwork epic detailed and intricate digital painting trending on artstation by wlop octane render`,
     rutkowski: (p) =>
