@@ -3,6 +3,7 @@ import { Model } from "mongoose";
 
 import api from "../api/client.js";
 import IUserDocument from "../types/IUserDocument.js";
+import splitUsername from "../util/splitUsername.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -36,7 +37,7 @@ export default {
         }
 
         const userDetails = (await api
-            .get(`/users/${user.username.split("#")[1]}`)
+            .get(`/users/${splitUsername(user.username).id}`)
             .then((res) => res.data)
             .catch((error) => {
                 if (error.response?.status === 404) {

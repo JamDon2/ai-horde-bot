@@ -9,6 +9,7 @@ import api from "../api/client.js";
 import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
 import { UserDetails } from "../util/hordeApi.js";
+import splitUsername from "../util/splitUsername.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -47,7 +48,7 @@ export default {
         if (!user) return;
 
         const userDetails = (await api
-            .get(`/users/${user.username.split("#")[1]}`)
+            .get(`/users/${splitUsername(user.username).id}`)
             .then((res) => res.data)
             .catch((error) => {
                 if (error.response?.status === 404) {
@@ -79,7 +80,7 @@ export default {
                     )
                     .setURL(
                         `${config.horde.baseUrl}/users/${
-                            user.username.split("#")[1]
+                            splitUsername(user.username).id
                         }`
                     )
                     .addFields([

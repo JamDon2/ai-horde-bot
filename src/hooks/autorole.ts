@@ -4,6 +4,7 @@ import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
 import api from "../api/client.js";
 import { UserDetails } from "../util/hordeApi.js";
+import splitUsername from "../util/splitUsername.js";
 
 export default async function autorole(
     interaction: CommandInteraction,
@@ -35,7 +36,7 @@ export default async function autorole(
         if (!user) return;
 
         const userDetails = (await api
-            .get(`/users/${user.username.split("#")[1]}`)
+            .get(`/users/${splitUsername(user.username).id}`)
             .then((res) => res.data)
             .catch((error) => {
                 if (error.response?.status === 404) {
