@@ -10,6 +10,7 @@ import { Model } from "mongoose";
 
 import hordeGenerate from "../util/hordeGenerate.js";
 import config from "../config.js";
+import sharp from "sharp";
 
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
@@ -223,12 +224,35 @@ export default {
         }
 
         const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"));
+
+        let image = await imageJoin(buff);
+
+        const sharpImage = sharp(image);
+
+        const maxSize = 8000000;
+
+        if (image.length > maxSize) {
+            const { height, width } = await sharpImage.metadata();
+
+            if (height && width) {
+                const newHeight = Math.floor(
+                    (height * (maxSize * 0.8)) / image.length
+                );
+                const newWidth = Math.floor(
+                    (width * (maxSize * 0.8)) / image.length
+                );
+
+                sharpImage.resize(newWidth, newHeight);
+
+                console.log(newHeight, height);
+                console.log(newWidth, width);
+            }
+        }
+
+        image = await sharpImage.toBuffer();
+
         const messageData = {
-            files: [
-                new AttachmentBuilder(await imageJoin(buff)).setName(
-                    `generation.png`
-                ),
-            ],
+            files: [new AttachmentBuilder(image).setName(`generation.png`)],
             embeds: [
                 {
                     title:
