@@ -27,7 +27,7 @@ const styles: Record<string, (s: string) => string> = {
     elmstreet: (p) =>
         `drawing of ${p} by tim burton, by Aaron Horkey, by H R Giger, creepy, horror, sharp, focused, HD, detailed`,
     ennui: (p) => `${p}, black and white, foggy, negative, eerie`,
-    dark_fantay: (p) =>
+    dark_fantasy: (p) =>
         `highly detailed digital painting of ${p}, highly realistic fantasy concept art by Darek Zabrocki and Zdzisław Beksiński, paint strokes, intricate, eerie scenery, dark volumetric lighting, triadic color scheme, very coherent, sharp focus, illustration, film grain, spooky vibe`,
 };
 
