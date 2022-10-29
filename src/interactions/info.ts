@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import {
     CommandInteraction,
     EmbedBuilder,
@@ -5,10 +6,9 @@ import {
 } from "discord.js";
 import { Model } from "mongoose";
 
-import api from "../api/client.js";
+import API from "../api/client.js";
 import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
-import { UserDetails } from "../util/hordeApi.js";
 import splitUsername from "../util/splitUsername.js";
 
 export default {
@@ -47,34 +47,34 @@ export default {
 
         if (!user) return;
 
-        const userDetails = (await api
-            .get(`/users/${splitUsername(user.username).id}`)
-            .then((res) => res.data)
-            .catch((error) => {
-                if (error.response?.status === 404) {
-                    return { error: "username" };
-                }
+        let error = false;
 
-                return { error: "unknown" };
-            })) as UserDetails | { error: string };
+        const { data: userDetails } = await API.getUserSingle(
+            splitUsername(user.username).id
+        ).catch((reason: AxiosError) => {
+            error = true;
 
-        if ("error" in userDetails) {
-            if (userDetails.error == "username") {
-                await interaction.followUp("The stored username is invalid.");
+            const status = reason.response?.status;
+
+            if (status == 404) {
+                interaction.followUp("User not found.");
             } else {
-                await interaction.followUp("An unknown error occurred.");
+                interaction.followUp("Unknown error.");
             }
-            return;
-        }
+
+            return { data: null };
+        });
+
+        if (error || !userDetails) return;
 
         await interaction.followUp({
             embeds: [
                 new EmbedBuilder()
                     .setTitle(user.username)
                     .setDescription(
-                        `**Kudos**: ${userDetails.kudos.toLocaleString(
-                            "en-US"
-                        )}\n**Worker count**: ${
+                        `**Kudos**: ${(
+                            userDetails.kudos as number
+                        ).toLocaleString("en-US")}\n**Worker count**: ${
                             userDetails.worker_count
                         }\n**Trusted**: ${userDetails.trusted ? "Yes" : "No"}`
                     )
@@ -86,20 +86,22 @@ export default {
                     .addFields([
                         {
                             name: "Usage",
-                            value: `Megapixelsteps generated: ${userDetails.usage.megapixelsteps.toLocaleString(
-                                "en-US"
-                            )}\nRequests made: ${userDetails.usage.requests.toLocaleString(
-                                "en-US"
-                            )}`,
+                            value: `Megapixelsteps generated: ${(
+                                userDetails.usage!.megapixelsteps as number
+                            ).toLocaleString("en-US")}\nRequests made: ${(
+                                userDetails.usage!.requests as number
+                            ).toLocaleString("en-US")}`,
                             inline: true,
                         },
                         {
                             name: "Contributions",
-                            value: `Megapixelsteps generated: ${userDetails.contributions.megapixelsteps.toLocaleString(
-                                "en-US"
-                            )}\nRequests fulfilled: ${userDetails.contributions.fulfillments.toLocaleString(
-                                "en-US"
-                            )}`,
+                            value: `Megapixelsteps generated: ${(
+                                userDetails.contributions!
+                                    .megapixelsteps as number
+                            ).toLocaleString("en-US")}\nRequests fulfilled: ${(
+                                userDetails.contributions!
+                                    .fulfillments as number
+                            ).toLocaleString("en-US")}`,
                             inline: true,
                         },
                     ]),

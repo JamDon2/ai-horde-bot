@@ -1,6 +1,7 @@
+import { AxiosError } from "axios";
 import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
-import api from "../api/client.js";
+import API from "../api/client.js";
 import KudosEscrow from "../models/KudosEscrow.js";
 import IUserDocument from "../types/IUserDocument.js";
 import { sendKudos } from "../util/sendKudos.js";
@@ -24,33 +25,31 @@ export default {
 
         const apiKey = interaction.options.get("api-key", true).value as string;
 
-        const data: { username: string } | { error: string } = (await api
-            .get("/find_user", {
-                headers: { apikey: apiKey },
-            })
-            .then((res) => res.data)
-            .catch((error) => {
-                if (error.response?.status === 404) {
-                    return { error: "api-key" };
+        let error = false;
+
+        const { data } = await API.getFindUser(apiKey).catch(
+            (reason: AxiosError) => {
+                error = true;
+
+                const status = reason.response?.status;
+
+                if (status == 404) {
+                    interaction.followUp("Invalid API key.");
+                } else {
+                    interaction.followUp("Unknown error.");
                 }
 
-                return { error: "unknown" };
-            })) as { username: string } | { error: string };
-
-        if ("error" in data) {
-            if (data.error == "api-key") {
-                await interaction.followUp("Invalid API key.");
-            } else {
-                await interaction.followUp("An unknown error occurred.");
+                return { data: null };
             }
-            return;
-        }
+        );
+
+        if (error || !data) return;
 
         const result = await User.findById(interaction.user.id);
 
         if (result) {
             result.apiKey = apiKey;
-            result.username = data.username;
+            result.username = data.username as string;
 
             await result.save();
 
