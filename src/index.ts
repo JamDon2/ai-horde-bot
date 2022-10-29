@@ -8,7 +8,7 @@ import { interactionHandlers } from "./interactions.js";
 import User from "./models/User.js";
 import KudosEscrow from "./models/KudosEscrow.js";
 import { sendKudos } from "./util/sendKudos.js";
-import { preCommand, inCommand, postCommand } from "./commandHooks.js";
+import { preCommand, postCommand } from "./commandHooks.js";
 
 const client = new Client({
     intents: [
@@ -49,16 +49,13 @@ client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
         if (!interactionHandlers[interaction.commandName]) return;
 
-        const hook = interactionHandlers[interaction.commandName].command;
+        const handler = interactionHandlers[interaction.commandName].command;
 
-        if (!hook) return;
+        if (!handler) return;
 
         await preCommand(interaction, User, client);
 
-        await Promise.all([
-            hook(interaction, User, client),
-            inCommand(interaction, User, client),
-        ]);
+        await handler(interaction, User, client);
 
         await postCommand(interaction, User, client);
     }
