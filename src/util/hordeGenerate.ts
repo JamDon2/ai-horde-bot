@@ -2,6 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { createStatusSheet } from "./createStatusSheet.js";
 import API from "../api/client.js";
 import { GenerationInput } from "stable-horde-api";
+import { AxiosError } from "axios";
 
 export default async function (
     apiKey: string,
@@ -19,7 +20,9 @@ export default async function (
 
                     const { data: checkResult } = await API.getAsyncCheck(
                         data.id
-                    ).catch(() => {
+                    ).catch((reason: AxiosError) => {
+                        console.error(reason.stack);
+                        console.error(reason.response?.data);
                         reject("Error checking status");
                         return { data: null };
                     });
