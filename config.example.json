@@ -30,7 +30,7 @@
         }
     },
     "horde": {
-        "baseUrl": "https://stablehorde.net/api/v2"
+        "baseUrl": "https://stablehorde.net/api"
     },
     "autorole": {
         "enabled": true,
