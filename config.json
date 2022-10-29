@@ -30,7 +30,7 @@
         }
     },
     "horde": {
-        "baseUrl": "http://localhost:7001/api"
+        "baseUrl": "https://stablehorde.net/api"
     },
     "autorole": {
         "enabled": true,
