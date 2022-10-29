@@ -224,7 +224,7 @@ export default {
             return;
         }
 
-        const buff: Buffer[] = data.map((d) => Buffer.from(d, "base64"));
+        const buff: Buffer[] = data.map((d: any) => Buffer.from(d, "base64"));
 
         let image = await imageJoin(buff);
 
