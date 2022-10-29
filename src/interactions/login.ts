@@ -36,6 +36,8 @@ export default {
                 if (status == 404) {
                     interaction.followUp("Invalid API key.");
                 } else {
+                    console.log(reason.stack);
+                    console.log(reason.response?.data);
                     interaction.followUp("Unknown error.");
                 }
 
