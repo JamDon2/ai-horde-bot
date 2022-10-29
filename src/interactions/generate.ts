@@ -14,21 +14,21 @@ import sharp from "sharp";
 
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
-    doge: (p) => `An adorable canine dog ${p}`,
-    fantasy: (p) =>
-        `${p} fantasy artwork epic detailed and intricate digital painting trending on artstation by wlop octane render`,
-    rutkowski: (p) =>
-        `${p} fantasy artwork epic detailed and intricate digital painting trending on artstation concept art by greg rutkowski`,
-    anime: (p) =>
-        `${p} digital 2d anime illustration, by Makoto Shinkai, by Hayao Miyazaki, detailed award-winning still frame`,
-    spooky: (p) =>
-        `${p} creepy hyperrealistic detailed horror fantasy concept art, by Wayne Barlowe, by Zdzislaw Beksinski, by Seb McKinnon`,
-    painting: (p) =>
-        `${p} digitized painting, highly detailed, sharp focus, impasto brush strokes, acclaimed artwork by gaston bussiere, by j. c. leyendecker`,
-    flat: (p) =>
-        `${p} ui art icon by victo ngai, kilian eng, lois van baarle, flat`,
-    butter: (p) =>
-        `${p} award-winning butter sculpture at the Minnesota State Fair, made of butter, dairy creation`,
+    terror_ink: (p) =>
+        `a terrifying ink drawing of a ${p}, by Ko Young Hoon, by Yoshitaka Amano, Charcoal Art, Ink, Oil Paint, Concept Art, Color Grading, Dramatic, Intentional camera movement, Lonely, Cracks, With Imperfections, in a symbolic and meaningful style, insanely detailed and intricate, hypermaximalist, elegant, ornate, hyper realistic, super detailed, a ghost, covered in spiderweb, eerie, feeling of dread, decay, samhain`,
+    nightmare: (p) =>
+        `${p} by Aaron Horkey, by Adonna Khare, by Carrie Ann Baade, by Jeff Lemire, by Junji Ito, horror, creepy, dark, eldritch, fantasy`,
+    abandoned: (p) =>
+        `Old found footage of hyper realistic ${p}, abandoned, liminal space, horror, eerie, mysterious, noise and grain, dark hues, dark tones, single source of light, 35mm, Kodak Autochrome, floating particles, auto flash, auto focus`,
+    witch_land: (p) =>
+        `digital art of ${p}, witch world, Halloween theme, scenic Halloween, highly detailed, zbrush, by artist Artgerm, by artist Stephen Hickman, by artist Carne griffiths`,
+    nightmare_fairytale: (p) =>
+        `horror ${p} in a dark forest, darkness, fog, very detailed, cold, Editorial illustration, gothic, evil, art by Sam Bosma, painting by H.P. Lovecraft`,
+    elmstreet: (p) =>
+        `drawing of ${p} by tim burton, by Aaron Horkey, by H R Giger, creepy, horror, sharp, focused, HD, detailed`,
+    ennui: (p) => `${p}, black and white, foggy, negative, eerie`,
+    dark_fantay: (p) =>
+        `highly detailed digital painting of ${p}, highly realistic fantasy concept art by Darek Zabrocki and Zdzisław Beksiński, paint strokes, intricate, eerie scenery, dark volumetric lighting, triadic color scheme, very coherent, sharp focus, illustration, film grain, spooky vibe`,
 };
 
 const cleanNumberInput = (s: string | undefined, fallback: number) => {
