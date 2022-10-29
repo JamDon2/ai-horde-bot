@@ -1,7 +1,7 @@
 import { joinImages } from "join-images";
 
-export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
-    buffers.length == 1
+export async function imageJoin(buffers: Buffer[]): Promise<Buffer> {
+    return buffers.length == 1
         ? buffers[0]
         : buffers.length == 4
         ? Promise.all([
@@ -13,11 +13,7 @@ export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
               }).then((buff) => buff.png().toBuffer()),
           ])
               .then((buffers) => joinImages(buffers, { direction: "vertical" }))
-              .then((buff) =>
-                  isCompressed
-                      ? buff.jpeg({ quality: 80 }).toBuffer()
-                      : buff.png().toBuffer()
-              )
+              .then((buff) => buff.png().toBuffer())
         : Promise.all([
               joinImages([buffers[0], buffers[1], buffers[2]], {
                   direction: "horizontal",
@@ -30,8 +26,5 @@ export const imageJoin = async (buffers: Buffer[], isCompressed = false) =>
               }).then((buff) => buff.png().toBuffer()),
           ])
               .then((buffers) => joinImages(buffers, { direction: "vertical" }))
-              .then((buff) =>
-                  isCompressed
-                      ? buff.jpeg({ quality: 80 }).toBuffer()
-                      : buff.png().toBuffer()
-              );
+              .then((buff) => buff.png().toBuffer());
+}

@@ -2,8 +2,9 @@ import { CommandInteraction } from "discord.js";
 import { Model } from "mongoose";
 import config from "../config.js";
 import IUserDocument from "../types/IUserDocument.js";
-import api from "../api/client.js";
-import { UserDetails } from "../util/hordeApi.js";
+import API from "../api/client.js";
+import splitUsername from "../util/splitUsername.js";
+import { AxiosError } from "axios";
 
 export default async function autorole(
     interaction: CommandInteraction,
@@ -34,27 +35,28 @@ export default async function autorole(
 
         if (!user) return;
 
-        const userDetails = (await api
-            .get(`/users/${user.username.split("#")[1]}`)
-            .then((res) => res.data)
-            .catch((error) => {
-                if (error.response?.status === 404) {
-                    return { error: "username" };
-                }
+        let error = false;
 
-                return { error: "unknown" };
-            })) as UserDetails | { error: string };
+        const { data: userDetails } = await API.getUserSingle(
+            splitUsername(user.username).id
+        ).catch((reason: AxiosError) => {
+            error = true;
 
-        if ("error" in userDetails) {
-            if (userDetails.error == "username") {
-                await interaction.followUp("The stored username is invalid.");
+            const status = reason.response?.status;
+
+            if (status == 404) {
+                interaction.followUp("User not found.");
             } else {
-                await interaction.followUp("An unknown error occurred.");
+                interaction.followUp("Unknown error.");
             }
-            return;
-        }
-        const worker = userDetails.worker_count > 0;
-        const trusted = userDetails.trusted;
+
+            return { data: null };
+        });
+
+        if (error || !userDetails) return;
+
+        const worker = (userDetails.worker_count as number) > 0;
+        const trusted = userDetails.trusted as boolean;
 
         if (serverHasWorker && worker && !hasWorker) {
             await member.roles.add(

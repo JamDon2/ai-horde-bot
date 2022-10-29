@@ -54,7 +54,7 @@ The `config.json` file contains the following properties:
         -   {{user_mention}}: The mention string for the sender
         -   {{message_url}}: A URL for the message that was reacted to
 -   `horde`: This contains the specific horde to be used.
-    -   `baseUrl`: The API endpoint for the horde.
+    -   `baseUrl`: The API base URL for the horde, not including API version.
 -   `autorole`: This contains the autorole module configuration.
     -   `enabled`: Whether the module is enabled.
     -   `worker`: An object containing server IDs, and the worker role for the server in question.

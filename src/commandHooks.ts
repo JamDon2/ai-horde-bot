@@ -25,16 +25,6 @@ export async function preCommand(
     }
 }
 
-export async function inCommand(
-    interaction: CommandInteraction,
-    User: Model<IUserDocument>,
-    client: Client
-) {
-    for (const hook of commandHooks.inCommand) {
-        await hook(interaction, User, client);
-    }
-}
-
 export async function postCommand(
     interaction: CommandInteraction,
     User: Model<IUserDocument>,

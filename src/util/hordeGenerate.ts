@@ -1,15 +1,15 @@
 import { CommandInteraction } from "discord.js";
 import { createStatusSheet } from "./createStatusSheet.js";
-import { Api, GenerationInput } from "./hordeApi.js";
+import API from "../api/client.js";
+import { GenerationInput } from "stable-horde-api";
+
 export default async function (
     apiKey: string,
     params: GenerationInput,
     interaction: CommandInteraction
 ) {
-    const hordeApi = new Api(apiKey);
-    return await hordeApi.v2
-        .postAsyncGenerate(params)
-        .then((data): Promise<string[] | null> => {
+    return await API.postAsyncGenerate(apiKey, params)
+        .then(({ data }): Promise<string[] | null> => {
             return new Promise<string[] | null>((resolve, reject) => {
                 const checkItem = async () => {
                     if (!data.id) {
@@ -17,45 +17,55 @@ export default async function (
                         return;
                     }
 
-                    const res = await hordeApi.v2
-                        .getAsyncCheck(data.id)
-                        .catch(() => {
-                            reject("Error checking status");
-                            return;
-                        });
+                    const { data: checkResult } = await API.getAsyncCheck(
+                        data.id
+                    ).catch(() => {
+                        reject("Error checking status");
+                        return { data: null };
+                    });
 
-                    if (!res) {
+                    if (!checkResult) {
                         reject("No response");
                         return;
                     }
 
-                    if (res.done) {
+                    if (checkResult.done) {
                         clearInterval(checkInterval);
-                        hordeApi.v2
-                            .getAsyncStatus(data.id)
-                            .then((res) =>
+                        API.getAsyncStatus(data.id)
+                            .then(({ data }) =>
                                 resolve(
-                                    res.generations?.map((e) => e.img ?? "") ??
+                                    data.generations?.map((e) => e.img ?? "") ??
                                         []
                                 )
-                            );
+                            )
+                            .catch(() => {
+                                reject("Error getting status");
+                            });
                         return;
                     }
 
-                    const workers = await hordeApi.v2.getWorkers();
+                    const { data: workers } = await API.getWorkers().catch(
+                        () => {
+                            reject("Error getting workers.");
+                            return { data: null };
+                        }
+                    );
+
+                    if (!workers) return;
 
                     await interaction.editReply({
                         embeds: [
                             createStatusSheet("Generation in progress", {
-                                "Status (🟢, 🟡, 🔴)": `${res.finished?.toString()}/${res.processing?.toString()}/${res.waiting?.toString()}`,
+                                "Status (🟢, 🟡, 🔴)": `${checkResult.finished?.toString()}/${checkResult.processing?.toString()}/${checkResult.waiting?.toString()}`,
                                 "Queue Position":
-                                    res.queue_position?.toString() ?? "",
+                                    checkResult.queue_position?.toString() ??
+                                    "",
                                 Elapsed: `<t:${(
                                     interaction.createdAt.getTime() / 1000
                                 ).toFixed(0)}:R>`,
                                 ETA: `<t:${(
                                     new Date().getTime() / 1000 +
-                                    (res.wait_time ?? 0)
+                                    (checkResult.wait_time ?? 0)
                                 ).toFixed(0)}:R>`,
                                 "Active Workers": workers
                                     .filter((f) => !f.paused)
