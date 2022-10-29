@@ -244,9 +244,6 @@ export default {
                 );
 
                 sharpImage.resize(newWidth, newHeight);
-
-                console.log(newHeight, height);
-                console.log(newWidth, width);
             }
         }
 
