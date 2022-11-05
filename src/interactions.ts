@@ -13,6 +13,8 @@ import setpublic from "./interactions/setpublic.js";
 import generate from "./interactions/generate.js";
 import IUserDocument from "./types/IUserDocument.js";
 import workers from "./interactions/workers.js";
+import team from "./interactions/team.js";
+import team_autocomplete from "./interactions/team-autocomplete.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -51,4 +53,5 @@ export const interactionHandlers: {
     info: { command: info.commandHandler },
     generate: { command: generate.commandHandler },
     workers: { command: workers.commandHandler },
+    team: { command: team.commandHandler, autocomplete: team_autocomplete.commandHandler },
 };
