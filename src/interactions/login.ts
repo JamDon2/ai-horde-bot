@@ -27,6 +27,11 @@ export default {
 
         let error = false;
 
+        if (apiKey === "0000000000") {
+            await interaction.followUp("You cannot log in as anonymous.");
+            return;
+        }
+
         const { data } = await API.getFindUser(apiKey).catch(
             (reason: AxiosError) => {
                 error = true;
