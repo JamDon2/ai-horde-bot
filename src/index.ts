@@ -93,7 +93,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
         ? message.interaction!.user
         : message.author;
 
-    if (author.id === user.id) {
+    if (author.id === user.id || (!isBotInteraction && author.bot)) {
         await reaction.users.remove(user);
         return;
     }
