@@ -59,8 +59,8 @@ export default {
             if (status == 404) {
                 interaction.followUp("User not found.");
             } else {
-                console.log(reason.stack);
-                console.log(reason.response?.data);
+                console.error(reason.stack);
+                console.error(reason.response?.data);
                 interaction.followUp("Unknown error.");
             }
 
