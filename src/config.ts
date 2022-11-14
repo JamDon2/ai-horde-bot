@@ -29,6 +29,11 @@ type Config = {
             down: string;
         };
     };
+    event: {
+        enabled: boolean;
+        guildId: string;
+        channelId: string;
+    };
     escrowtime: number;
     defaultMessage: string;
     useEmojiNames: boolean;

@@ -1,5 +1,6 @@
 import {
     AutocompleteInteraction,
+    ButtonInteraction,
     Client,
     CommandInteraction,
     SlashCommandBuilder,
@@ -13,6 +14,7 @@ import setpublic from "./interactions/setpublic.js";
 import generate from "./interactions/generate.js";
 import IUserDocument from "./types/IUserDocument.js";
 import workers from "./interactions/workers.js";
+import event from "./interactions/event.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -39,6 +41,12 @@ type InteractionHandlers = {
         User: Model<IUserDocument>,
         client: Client
     ) => Promise<void>;
+
+    button?: (
+        interaction: ButtonInteraction,
+        User: Model<IUserDocument>,
+        client: Client
+    ) => Promise<void>;
 };
 
 export const interactionHandlers: {
@@ -51,4 +59,5 @@ export const interactionHandlers: {
     info: { command: info.commandHandler },
     generate: { command: generate.commandHandler },
     workers: { command: workers.commandHandler },
+    event: { button: event.buttonHandler },
 };

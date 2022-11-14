@@ -69,6 +69,16 @@ client.on("interactionCreate", async (interaction) => {
 
         await hook(interaction, User, client);
     }
+
+    if (interaction.isButton()) {
+        if (!interactionHandlers[interaction.customId]) return;
+
+        const hook = interactionHandlers[interaction.customId].button;
+
+        if (!hook) return;
+
+        await hook(interaction, User, client);
+    }
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {

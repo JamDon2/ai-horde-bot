@@ -50,6 +50,11 @@
             "down": "Stable Horde Bot is offline for maintenance."
         }
     },
+    "event": {
+        "enabled": true,
+        "guildId": "GUILD_ID",
+        "channelId": "CHANNEL_ID"
+    },
     "escrowtime": 86400,
     "defaultMessage": "{{user_mention}} has given you {{amount}} kudos.",
     "useEmojiNames": true,
