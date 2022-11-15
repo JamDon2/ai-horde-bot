@@ -4,7 +4,7 @@ This is a utility bot for the [Stable Horde](https://stablehorde.net). It provid
 
 It is free software so you can not only add it to your owns server to interact with the stable horde, but also host it on your own to interact on your own terms.
 
-# Using
+# Usage
 
 This discord bot provides many functionalities around it, but the most significant ones are generating images, and gifting kudos to other stable horde users.
 
