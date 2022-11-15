@@ -119,7 +119,10 @@ export default {
                 .setRequired(false)
         ),
 
-    async commandHandler(interaction: CommandInteraction, { User }: Models) {
+    async commandHandler(
+        interaction: CommandInteraction,
+        { User, Generation }: Models
+    ) {
         await interaction.deferReply();
 
         const optionsString = interaction.options.data
@@ -253,7 +256,7 @@ export default {
                 config.event.enabled &&
                 config.event.guildId === interaction.guildId;
 
-            await interaction.editReply({
+            const message = await interaction.editReply({
                 files: [new AttachmentBuilder(image).setName(`generation.png`)],
                 embeds: [
                     {
@@ -288,6 +291,15 @@ export default {
                       ]
                     : undefined,
             });
+
+            const generation = new Generation({
+                _id: message.id,
+                author: interaction.user.id,
+                prompt,
+                style,
+            });
+
+            await generation.save();
         } catch (err) {
             console.error(err);
 
