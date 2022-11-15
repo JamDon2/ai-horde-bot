@@ -82,11 +82,11 @@ export default {
                         client,
                         User,
                         {
-                            id: sender._id,
+                            id: sender.id,
                             apiKey: sender.apiKey,
                             sendDM: true,
                         },
-                        { id: user._id, username: user.username, sendDM: true },
+                        { id: user.id, username: user.username, sendDM: true },
                         doc.emoji,
                         doc.messageURL
                     ).catch(console.error);
