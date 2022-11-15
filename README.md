@@ -4,7 +4,7 @@ This is a utility bot for the [Stable Horde](https://stablehorde.net). It provid
 
 It is free software so you can not only add it to your owns server to interact with the stable horde, but also host it on your own to interact on your own terms.
 
-# Using 
+# Using
 
 This discord bot provides many functionalities around it, but the most significant ones are generating images, and gifting kudos to other stable horde users.
 
@@ -23,6 +23,7 @@ Any user in your server should be able to generate images using the `/generate` 
 To get more priority, users should `/login` with their own API key.
 
 ## Emoji Kudos
+
 If you want your users to be able to gift kudos to each other, you will need to setup your own emojis which will trigger the bot to award kudos from the Stable horde. The names have to match the emoji keys you see in [config.json](config.example.json)
 
 Any time that emoji is reacted with, it will transfer the stated amount of kudos. For this to work, both the reactor and the reactee, needs to have logged in to the Kudos bot with `/login` command. If either of them has not, the emoji will be removed and whoever is missing it, will receive a private message from the bot to log in.
@@ -31,9 +32,9 @@ If the reactor doesn't have enough kudos, the emoji will also be removed.
 
 Use this functionality to promote good behaviour with something that has a bit more utility than random emojis
 
-There's more command you can run to view information about users and this bot is in active development. 
+There's more command you can run to view information about users and this bot is in active development.
 
-# Community 
+# Community
 
 [Join our server](https://discord.gg/3DxrhksKzn) and let us know what you think
 
@@ -69,6 +70,10 @@ The `config.json` file contains the following properties:
     -   `messages`: The message to send. The following variables are available:
         -   `up`: The message to send when the bot comes online.
         -   `down`: The message to send when the bot goes offline.
+-   `event`: This part is for Discord events.
+    -   `enabled`: Whether the module is enabled.
+    -   `guildId`: The ID of the server the event works in.
+    -   `channelId`: The ID of the channel the event submissions get sent to.
 -   `escrowtime`: Time in seconds to remember a reward for, if the recipient isn't logged in
 -   `defaultMessage`: Same as `message`, a fallback if no message is specified for the emoji.
 -   `useEmojiNames`: If enabled, the bot will use the emoji names instead of IDs for finding the emoji.
