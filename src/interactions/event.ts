@@ -2,7 +2,7 @@ import { ButtonInteraction, EmbedBuilder, TextChannel } from "discord.js";
 import { Model } from "mongoose";
 import config from "../config.js";
 
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 
 export default {
     async buttonHandler(
