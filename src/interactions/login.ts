@@ -1,9 +1,8 @@
 import { AxiosError } from "axios";
 import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { Model } from "mongoose";
 import API from "../api/client.js";
 import KudosEscrow from "../models/KudosEscrow.js";
-import IUserDocument from "../types/IUserDocument.js";
+import Models from "../types/models.js";
 import { sendKudos } from "../util/sendKudos.js";
 
 export default {
@@ -18,7 +17,7 @@ export default {
         ),
     async commandHandler(
         interaction: CommandInteraction,
-        User: Model<IUserDocument>,
+        { User }: Models,
         client: Client
     ) {
         await interaction.deferReply({ ephemeral: true });
@@ -83,11 +82,11 @@ export default {
                         client,
                         User,
                         {
-                            id: sender._id,
+                            id: sender.id,
                             apiKey: sender.apiKey,
                             sendDM: true,
                         },
-                        { id: user._id, username: user.username, sendDM: true },
+                        { id: user.id, username: user.username, sendDM: true },
                         doc.emoji,
                         doc.messageURL
                     ).catch(console.error);

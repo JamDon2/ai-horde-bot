@@ -4,14 +4,14 @@ import {
     EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { Model } from "mongoose";
 
 import API from "../api/client.js";
-import IUserDocument from "../types/IUserDocument.js";
+
 import splitUsername from "../util/splitUsername.js";
 import { AxiosError } from "axios";
 import { WorkerDetailsStable } from "stable-horde-api";
 import config from "../config.js";
+import Models from "../types/models.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -20,10 +20,7 @@ export default {
         .addUserOption((option) =>
             option.setName("user").setDescription("The user to query.")
         ),
-    async commandHandler(
-        interaction: CommandInteraction,
-        User: Model<IUserDocument>
-    ) {
+    async commandHandler(interaction: CommandInteraction, { User }: Models) {
         await interaction.deferReply({ ephemeral: true });
 
         const userArg = interaction.options.get("user");

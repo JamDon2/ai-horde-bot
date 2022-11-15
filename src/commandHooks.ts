@@ -1,12 +1,11 @@
 import { Client, CommandInteraction } from "discord.js";
-import { Model } from "mongoose";
 import autorole from "./hooks/autorole.js";
-import IUserDocument from "./types/IUserDocument.js";
+import Models from "./types/models.js";
 
 const commandHooks: {
     [key: string]: ((
         interaction: CommandInteraction,
-        User: Model<IUserDocument>,
+        models: Models,
         client: Client
     ) => Promise<void>)[];
 } = {
@@ -17,20 +16,20 @@ const commandHooks: {
 
 export async function preCommand(
     interaction: CommandInteraction,
-    User: Model<IUserDocument>,
+    { User, Generation, KudosEscrow }: Models,
     client: Client
 ) {
     for (const hook of commandHooks.preCommand) {
-        await hook(interaction, User, client);
+        await hook(interaction, { User, Generation, KudosEscrow }, client);
     }
 }
 
 export async function postCommand(
     interaction: CommandInteraction,
-    User: Model<IUserDocument>,
+    { User, Generation, KudosEscrow }: Models,
     client: Client
 ) {
     for (const hook of commandHooks.postCommand) {
-        await hook(interaction, User, client);
+        await hook(interaction, { User, Generation, KudosEscrow }, client);
     }
 }

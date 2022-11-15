@@ -1,4 +1,6 @@
-interface IUserDocument {
+import { Document } from "mongoose";
+
+interface IUser extends Document {
     _id: string;
     apiKey: string;
     username: string;
@@ -10,4 +12,4 @@ interface IUserDocument {
     totalDonated: number;
 }
 
-export default IUserDocument;
+export default IUser;

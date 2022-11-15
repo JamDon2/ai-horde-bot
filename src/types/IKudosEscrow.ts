@@ -1,4 +1,6 @@
-interface IKudosEscrow {
+import { Document } from "mongoose";
+
+interface IKudosEscrow extends Document {
     from: string;
     to: string;
     emoji: string;

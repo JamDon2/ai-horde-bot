@@ -6,6 +6,7 @@ import humanizeDuration from "humanize-duration";
 import config from "./config.js";
 import { interactionHandlers } from "./interactions.js";
 import User from "./models/User.js";
+import Generation from "./models/Generation.js";
 import KudosEscrow from "./models/KudosEscrow.js";
 import { sendKudos } from "./util/sendKudos.js";
 import { preCommand, postCommand } from "./commandHooks.js";
@@ -53,11 +54,19 @@ client.on("interactionCreate", async (interaction) => {
 
         if (!handler) return;
 
-        await preCommand(interaction, User, client);
+        await preCommand(
+            interaction,
+            { User, Generation, KudosEscrow },
+            client
+        );
 
-        await handler(interaction, User, client);
+        await handler(interaction, { User, Generation, KudosEscrow }, client);
 
-        await postCommand(interaction, User, client);
+        await postCommand(
+            interaction,
+            { User, Generation, KudosEscrow },
+            client
+        );
     }
 
     if (interaction.isAutocomplete()) {
@@ -67,7 +76,7 @@ client.on("interactionCreate", async (interaction) => {
 
         if (!hook) return;
 
-        await hook(interaction, User, client);
+        await hook(interaction, { User, Generation, KudosEscrow }, client);
     }
 
     if (interaction.isButton()) {
@@ -77,7 +86,7 @@ client.on("interactionCreate", async (interaction) => {
 
         if (!hook) return;
 
-        await hook(interaction, User, client);
+        await hook(interaction, { User, Generation, KudosEscrow }, client);
     }
 });
 

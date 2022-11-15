@@ -7,13 +7,12 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 
-import IUserDocument from "../types/IUserDocument.js";
 import { imageJoin } from "../util/imageJoin.js";
-import { Model } from "mongoose";
 
 import hordeGenerate from "../util/hordeGenerate.js";
 import config from "../config.js";
 import sharp from "sharp";
+import Models from "../types/models.js";
 
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
@@ -122,7 +121,7 @@ export default {
 
     async commandHandler(
         interaction: CommandInteraction,
-        User: Model<IUserDocument>
+        { User, Generation }: Models
     ) {
         await interaction.deferReply();
 
@@ -257,7 +256,7 @@ export default {
                 config.event.enabled &&
                 config.event.guildId === interaction.guildId;
 
-            await interaction.editReply({
+            const message = await interaction.editReply({
                 files: [new AttachmentBuilder(image).setName(`generation.png`)],
                 embeds: [
                     {
@@ -292,6 +291,15 @@ export default {
                       ]
                     : undefined,
             });
+
+            const generation = new Generation({
+                _id: message.id,
+                author: interaction.user.id,
+                prompt,
+                style,
+            });
+
+            await generation.save();
         } catch (err) {
             console.error(err);
 
