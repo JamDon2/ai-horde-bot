@@ -15,6 +15,8 @@ import generate from "./interactions/generate.js";
 import IUserDocument from "./types/IUserDocument.js";
 import workers from "./interactions/workers.js";
 import event from "./interactions/event.js";
+import team from "./interactions/team.js";
+import team_autocomplete from "./interactions/team-autocomplete.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -60,4 +62,8 @@ export const interactionHandlers: {
     generate: { command: generate.commandHandler },
     workers: { command: workers.commandHandler },
     event: { button: event.buttonHandler },
+    team: {
+        command: team.commandHandler,
+        autocomplete: team_autocomplete.commandHandler,
+    },
 };
