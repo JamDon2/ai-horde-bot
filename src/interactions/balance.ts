@@ -3,7 +3,7 @@ import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
 
 import API from "../api/client.js";
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 import splitUsername from "../util/splitUsername.js";
 
 export default {
@@ -13,10 +13,7 @@ export default {
         .addUserOption((option) =>
             option.setName("user").setDescription("The user to query.")
         ),
-    async commandHandler(
-        interaction: CommandInteraction,
-        User: Model<IUserDocument>
-    ) {
+    async commandHandler(interaction: CommandInteraction, User: Model<IUser>) {
         await interaction.deferReply({ ephemeral: true });
 
         const userArg = interaction.options.get("user");

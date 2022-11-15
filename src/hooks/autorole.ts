@@ -1,14 +1,14 @@
 import { CommandInteraction } from "discord.js";
 import { Model } from "mongoose";
 import config from "../config.js";
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 import API from "../api/client.js";
 import splitUsername from "../util/splitUsername.js";
 import { AxiosError } from "axios";
 
 export default async function autorole(
     interaction: CommandInteraction,
-    User: Model<IUserDocument>
+    User: Model<IUser>
 ) {
     if (config.autorole.enabled && interaction.guild) {
         const member = await interaction.guild.members.fetch(

@@ -7,7 +7,7 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 import { imageJoin } from "../util/imageJoin.js";
 import { Model } from "mongoose";
 
@@ -120,10 +120,7 @@ export default {
                 .setRequired(false)
         ),
 
-    async commandHandler(
-        interaction: CommandInteraction,
-        User: Model<IUserDocument>
-    ) {
+    async commandHandler(interaction: CommandInteraction, User: Model<IUser>) {
         await interaction.deferReply();
 
         const optionsString = interaction.options.data

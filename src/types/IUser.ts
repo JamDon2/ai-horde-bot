@@ -1,4 +1,4 @@
-interface IUserDocument {
+interface IUser {
     _id: string;
     apiKey: string;
     username: string;
@@ -10,4 +10,4 @@ interface IUserDocument {
     totalDonated: number;
 }
 
-export default IUserDocument;
+export default IUser;

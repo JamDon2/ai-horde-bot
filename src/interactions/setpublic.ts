@@ -1,7 +1,7 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
 
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 
 export default {
     command: new SlashCommandBuilder()
@@ -17,10 +17,7 @@ export default {
                 )
                 .setRequired(true)
         ),
-    async commandHandler(
-        interaction: CommandInteraction,
-        User: Model<IUserDocument>
-    ) {
+    async commandHandler(interaction: CommandInteraction, User: Model<IUser>) {
         await interaction.deferReply({ ephemeral: true });
 
         const user = await User.findById(interaction.user.id);

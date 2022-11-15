@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import Mustache from "mustache";
 import API from "../api/client.js";
 import config from "../config.js";
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 
 export async function sendKudosSilent(
     apiKey: string,
@@ -18,7 +18,7 @@ export async function sendKudosSilent(
 
 export async function sendKudos(
     client: Client,
-    User: Model<IUserDocument>,
+    User: Model<IUser>,
     from: { id: string; apiKey: string; sendDM: boolean },
     to: { id: string; username: string; sendDM: boolean },
     emoji: string | null,

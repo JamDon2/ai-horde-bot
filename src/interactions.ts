@@ -12,7 +12,7 @@ import login from "./interactions/login.js";
 import muteNotifications from "./interactions/mute-notifications.js";
 import setpublic from "./interactions/setpublic.js";
 import generate from "./interactions/generate.js";
-import IUserDocument from "./types/IUserDocument.js";
+import IUser from "./types/IUser.js";
 import workers from "./interactions/workers.js";
 import event from "./interactions/event.js";
 
@@ -32,19 +32,19 @@ export const commands: Omit<
 type InteractionHandlers = {
     command?: (
         interaction: CommandInteraction,
-        User: Model<IUserDocument>,
+        User: Model<IUser>,
         client: Client
     ) => Promise<void>;
 
     autocomplete?: (
         interaction: AutocompleteInteraction,
-        User: Model<IUserDocument>,
+        User: Model<IUser>,
         client: Client
     ) => Promise<void>;
 
     button?: (
         interaction: ButtonInteraction,
-        User: Model<IUserDocument>,
+        User: Model<IUser>,
         client: Client
     ) => Promise<void>;
 };

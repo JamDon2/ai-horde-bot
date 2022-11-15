@@ -3,7 +3,7 @@ import { Client, CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Model } from "mongoose";
 import API from "../api/client.js";
 import KudosEscrow from "../models/KudosEscrow.js";
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 import { sendKudos } from "../util/sendKudos.js";
 
 export default {
@@ -18,7 +18,7 @@ export default {
         ),
     async commandHandler(
         interaction: CommandInteraction,
-        User: Model<IUserDocument>,
+        User: Model<IUser>,
         client: Client
     ) {
         await interaction.deferReply({ ephemeral: true });

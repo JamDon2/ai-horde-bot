@@ -1,7 +1,7 @@
 import mongoose from "../db/client.js";
-import IUserDocument from "../types/IUserDocument.js";
+import IUser from "../types/IUser.js";
 
-const UserSchema = new mongoose.Schema<IUserDocument>({
+const UserSchema = new mongoose.Schema<IUser>({
     _id: { type: String, required: true },
     apiKey: { type: String, required: true },
     username: { type: String, required: true },
@@ -13,4 +13,4 @@ const UserSchema = new mongoose.Schema<IUserDocument>({
     totalDonated: { type: Number, default: 0 },
 });
 
-export default mongoose.model<IUserDocument>("User", UserSchema);
+export default mongoose.model<IUser>("User", UserSchema);
