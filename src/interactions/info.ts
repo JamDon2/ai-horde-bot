@@ -4,11 +4,10 @@ import {
     EmbedBuilder,
     SlashCommandBuilder,
 } from "discord.js";
-import { Model } from "mongoose";
 
 import API from "../api/client.js";
 import config from "../config.js";
-import IUser from "../types/IUser.js";
+import Models from "../types/models.js";
 import splitUsername from "../util/splitUsername.js";
 
 export default {
@@ -18,10 +17,7 @@ export default {
         .addUserOption((option) =>
             option.setName("user").setDescription("The user to query.")
         ),
-    async commandHandler(
-        interaction: CommandInteraction,
-        { User }: { User: Model<IUser> }
-    ) {
+    async commandHandler(interaction: CommandInteraction, { User }: Models) {
         await interaction.deferReply({ ephemeral: true });
 
         const userArg = interaction.options.get("user");

@@ -7,13 +7,12 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 
-import IUser from "../types/IUser.js";
 import { imageJoin } from "../util/imageJoin.js";
-import { Model } from "mongoose";
 
 import hordeGenerate from "../util/hordeGenerate.js";
 import config from "../config.js";
 import sharp from "sharp";
+import Models from "../types/models.js";
 
 const styles: Record<string, (s: string) => string> = {
     raw: (p) => p,
@@ -120,10 +119,7 @@ export default {
                 .setRequired(false)
         ),
 
-    async commandHandler(
-        interaction: CommandInteraction,
-        { User }: { User: Model<IUser> }
-    ) {
+    async commandHandler(interaction: CommandInteraction, { User }: Models) {
         await interaction.deferReply();
 
         const optionsString = interaction.options.data

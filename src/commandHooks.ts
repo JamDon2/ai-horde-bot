@@ -1,18 +1,11 @@
 import { Client, CommandInteraction } from "discord.js";
-import { Model } from "mongoose";
 import autorole from "./hooks/autorole.js";
-import IGeneration from "./types/IGeneration.js";
-import IKudosEscrow from "./types/IKudosEscrow.js";
-import IUser from "./types/IUser.js";
+import Models from "./types/models.js";
 
 const commandHooks: {
     [key: string]: ((
         interaction: CommandInteraction,
-        models: {
-            User: Model<IUser>;
-            Generation: Model<IGeneration>;
-            KudosEscrow: Model<IKudosEscrow>;
-        },
+        models: Models,
         client: Client
     ) => Promise<void>)[];
 } = {
@@ -23,15 +16,7 @@ const commandHooks: {
 
 export async function preCommand(
     interaction: CommandInteraction,
-    {
-        User,
-        Generation,
-        KudosEscrow,
-    }: {
-        User: Model<IUser>;
-        Generation: Model<IGeneration>;
-        KudosEscrow: Model<IKudosEscrow>;
-    },
+    { User, Generation, KudosEscrow }: Models,
     client: Client
 ) {
     for (const hook of commandHooks.preCommand) {
@@ -41,15 +26,7 @@ export async function preCommand(
 
 export async function postCommand(
     interaction: CommandInteraction,
-    {
-        User,
-        Generation,
-        KudosEscrow,
-    }: {
-        User: Model<IUser>;
-        Generation: Model<IGeneration>;
-        KudosEscrow: Model<IKudosEscrow>;
-    },
+    { User, Generation, KudosEscrow }: Models,
     client: Client
 ) {
     for (const hook of commandHooks.postCommand) {

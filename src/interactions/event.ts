@@ -1,14 +1,10 @@
 import { ButtonInteraction, EmbedBuilder, TextChannel } from "discord.js";
-import { Model } from "mongoose";
-import config from "../config.js";
 
-import IUser from "../types/IUser.js";
+import config from "../config.js";
+import Models from "../types/models.js";
 
 export default {
-    async buttonHandler(
-        interaction: ButtonInteraction,
-        { User }: { User: Model<IUser> }
-    ) {
+    async buttonHandler(interaction: ButtonInteraction, { User }: Models) {
         await interaction.deferReply({ ephemeral: true });
 
         const user = await User.findById(interaction.user.id);
