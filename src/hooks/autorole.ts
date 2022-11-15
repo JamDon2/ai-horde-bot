@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 
 export default async function autorole(
     interaction: CommandInteraction,
-    User: Model<IUser>
+    { User }: { User: Model<IUser> }
 ) {
     if (config.autorole.enabled && interaction.guild) {
         const member = await interaction.guild.members.fetch(

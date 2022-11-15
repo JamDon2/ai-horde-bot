@@ -18,7 +18,10 @@ export default {
         .addUserOption((option) =>
             option.setName("user").setDescription("The user to query.")
         ),
-    async commandHandler(interaction: CommandInteraction, User: Model<IUser>) {
+    async commandHandler(
+        interaction: CommandInteraction,
+        { User }: { User: Model<IUser> }
+    ) {
         await interaction.deferReply({ ephemeral: true });
 
         const userArg = interaction.options.get("user");

@@ -120,7 +120,10 @@ export default {
                 .setRequired(false)
         ),
 
-    async commandHandler(interaction: CommandInteraction, User: Model<IUser>) {
+    async commandHandler(
+        interaction: CommandInteraction,
+        { User }: { User: Model<IUser> }
+    ) {
         await interaction.deferReply();
 
         const optionsString = interaction.options.data

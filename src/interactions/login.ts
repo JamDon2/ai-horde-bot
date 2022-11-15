@@ -18,7 +18,7 @@ export default {
         ),
     async commandHandler(
         interaction: CommandInteraction,
-        User: Model<IUser>,
+        { User }: { User: Model<IUser> },
         client: Client
     ) {
         await interaction.deferReply({ ephemeral: true });

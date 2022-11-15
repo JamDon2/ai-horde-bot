@@ -7,7 +7,7 @@ import IUserDocument from "../types/IUserDocument.js";
 export default {
     async buttonHandler(
         interaction: ButtonInteraction,
-        User: Model<IUserDocument>
+        { User }: { User: Model<IUser> }
     ) {
         await interaction.deferReply({ ephemeral: true });
 
