@@ -15,7 +15,6 @@ import generate from "./interactions/generate.js";
 import workers from "./interactions/workers.js";
 import event from "./interactions/event.js";
 import team from "./interactions/team.js";
-import team_autocomplete from "./interactions/team-autocomplete.js";
 
 import Models from "./types/models.js";
 
@@ -65,6 +64,6 @@ export const interactionHandlers: {
     event: { button: event.buttonHandler },
     team: {
         command: team.commandHandler,
-        autocomplete: team_autocomplete.commandHandler,
+        autocomplete: team.autocompleteHandler,
     },
 };
