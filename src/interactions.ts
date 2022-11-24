@@ -14,6 +14,8 @@ import setpublic from "./interactions/setpublic.js";
 import generate from "./interactions/generate.js";
 import workers from "./interactions/workers.js";
 import event from "./interactions/event.js";
+import team from "./interactions/team.js";
+
 import Models from "./types/models.js";
 import maintenance from "./interactions/maintenance.js";
 
@@ -63,4 +65,8 @@ export const interactionHandlers: {
     workers: { command: workers.commandHandler },
     event: { button: event.buttonHandler },
     maintenance: { command: maintenance.commandHandler },
+    team: {
+        command: team.commandHandler,
+        autocomplete: team.autocompleteHandler,
+    },
 };

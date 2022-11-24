@@ -34,6 +34,11 @@ export default async function (
                         return;
                     }
 
+                    if (checkResult.faulted) {
+                        reject("Generation faulted");
+                        return;
+                    }
+
                     if (checkResult.done) {
                         API.getAsyncStatus(data.id)
                             .then(({ data }) =>
