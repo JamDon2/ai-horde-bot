@@ -9,6 +9,8 @@ export default async function (
     params: GenerationInput,
     interaction: CommandInteraction
 ) {
+    let checkInterval: NodeJS.Timer;
+
     return await API.postAsyncGenerate(apiKey, params)
         .then(({ data }): Promise<string[] | null> => {
             return new Promise<string[] | null>((resolve, reject) => {
@@ -38,7 +40,6 @@ export default async function (
                     }
 
                     if (checkResult.done) {
-                        clearInterval(checkInterval);
                         API.getAsyncStatus(data.id)
                             .then(({ data }) =>
                                 resolve(
@@ -96,14 +97,20 @@ export default async function (
                         interaction.createdAt.getTime() + 1000 * 60 * 10 <=
                         Date.now()
                     ) {
-                        clearInterval(checkInterval);
                         reject("Generation timed out");
                     }
                 };
-                const checkInterval = setInterval(checkItem, 10000);
+                checkInterval = setInterval(checkItem, 10000);
             });
         })
+        .then((data) => {
+            clearInterval(checkInterval);
+
+            return data;
+        })
         .catch(async (err) => {
+            clearInterval(checkInterval);
+
             await interaction.editReply({
                 content: "Error generating image. Please try again later.",
             });

@@ -17,6 +17,7 @@ import event from "./interactions/event.js";
 import team from "./interactions/team.js";
 
 import Models from "./types/models.js";
+import maintenance from "./interactions/maintenance.js";
 
 export const commands: Omit<
     SlashCommandBuilder,
@@ -29,6 +30,7 @@ export const commands: Omit<
     info.command,
     generate.command,
     workers.command,
+    maintenance.command,
 ];
 
 type InteractionHandlers = {
@@ -62,6 +64,7 @@ export const interactionHandlers: {
     generate: { command: generate.commandHandler },
     workers: { command: workers.commandHandler },
     event: { button: event.buttonHandler },
+    maintenance: { command: maintenance.commandHandler },
     team: {
         command: team.commandHandler,
         autocomplete: team.autocompleteHandler,
