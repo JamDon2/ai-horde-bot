@@ -13,7 +13,7 @@
     "devDependencies": {
         "@types/humanize-duration": "^3.27.1",
         "@types/mustache": "^4.2.2",
-        "@types/node": "^18.11.9",
+        "@types/node": "^18.11.17",
         "@types/sharp": "^0.31.0",
         "@typescript-eslint/eslint-plugin": "^5.47.0",
         "@typescript-eslint/parser": "^5.44.0",
