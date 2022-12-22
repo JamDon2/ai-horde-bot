@@ -31,6 +31,6 @@
         "mongoose": "^6.8.1",
         "mustache": "^4.2.0",
         "sharp": "^0.30.4",
-        "stable-horde-api": "^1.1.0"
+        "stable-horde-api": "^1.2.0"
     }
 }
