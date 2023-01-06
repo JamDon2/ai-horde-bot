@@ -205,6 +205,7 @@ export default {
             prompt: prompt,
             censor_nsfw: !config.generate.nsfw,
             nsfw: config.generate.nsfw,
+            r2: true,
             params: {
                 seed: iterations === 1 ? `${seed}` : undefined,
                 width: width,
